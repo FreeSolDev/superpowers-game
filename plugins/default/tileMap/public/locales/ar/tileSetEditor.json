@@ -1,0 +1,18 @@
+{
+  "tileSet": "رزمة بلاط",
+  "texture": {
+    "title": "قشرة",
+    "downloadPrompt": "أدخل اسما للقشرة",
+    "downloadInitialValue": "رزمة بلاط"
+  },
+  "grid": "شبكة (بكسل)",
+  
+  "data": "البيانات",
+  "tileID": "رقم البلاط التسلسلي",
+  
+  "properties": "الخصائص",
+  "newPropertyPrompt": "أدخل اسما للخاضية.",
+  "newPropertyInitialValue": "خاصية",
+  "renamePropertyPrompt": "أدخل اسما جديداً للخاصية.",
+  "deletePropertyConfirm": "هل حقا تريد حذف الخاصية؟"
+}

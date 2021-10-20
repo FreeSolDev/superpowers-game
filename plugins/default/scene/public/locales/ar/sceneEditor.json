@@ -1,0 +1,79 @@
+{
+  "controls": {
+    "camera": {
+      "title": "كاميرا",
+      "mode": "نمط",
+      "verticalAxis": "المحور العلوي",
+      "speed": "السرعة"
+    },
+    "transform": {
+      "title": "الإحداثيات",
+      "move": "حرك",
+      "rotate": "دوِر",
+      "scale": "تضخم",
+      "local": "محلي"
+    },
+    "grid": {
+      "title": "شبكة",
+      "size": "حجم",
+      "visible": "مرئي"
+    },
+    "light": {
+      "title": "ضوء"
+    }
+  },
+  "treeView": {
+    "newActor": {
+      "title": "مُمثل جديد",
+      "prompt": "أدخل اسما للمُمثل.",
+      "initialValue": "مُمثل"
+    },
+    "newPrefab": {
+      "title": "كيان مسبق جديد",
+      "prompt": " أدخل اسما للكيان المسبق",
+      "initialValue": "كيان مسبق"
+    },
+    "renamePrompt": "أدخل اسما جديدًا للمُمثل.",
+    "duplicatePrompt": "أدخل اسما للمُمثل الجديد.",
+    "deleteConfirm": "هل حقا تريد حذف المُمثلين المحددين?",
+    "visible": {
+      "show": "إظهار",
+      "hide": "إخفاء"
+    }
+  },
+  "inspector": {
+    "position": "موقع",
+    "orientation": "إلتفاف",
+    "scale": "تضخم",
+    "visible": "مرئي",
+    "layer": "شريحة",
+    "prefab": "كيان مسبق",
+    "newComponent":{
+      "title": "إضافة مُركب",
+      "select": "إختر نوع المُركب لإضافتة.",
+      "validate": "إضافة"
+    },
+    "deleteComponent": {
+      "confirm": "هل حقا تريد حذف المُركب؟",
+      "validate": "حذف"
+    }
+  },
+  "dropActor": "ألقي بي المعد هنا لإنشاء مُمثل",
+  "dropComponent": "ألقي المعد هنا لإضافة مُركب",
+  "failures": {
+    "newActor": "تعذر إنشاء مُمثل: ${reason}",
+    "importIntoScene": "تعذر الجلب: ${reason}"
+  },
+  "errors": {
+    "invalidActorId": "رقم مُمثل تعريفي غير مخول: ${id}.",
+    "cantImportAssetTypeIntoScene": "هذا النوع من المعدات لا يمكن جلبه الى المشهد.",
+    "prefab": {
+      "mustHaveSingleRootActor": "يجب عل المشهد ان يكون فيه مُمثل واحد على الاقل ليتم استخدامه كـكيان مسبق.",
+      "cantUseSelf": "لايمكن للمشهد ان يستخدم نفسه كـكيان مسبق.",
+      "cyclicalReference": "إذا تم استخدام هذا المشهد كـكيان مسبق, فستنشاء حلقة مفرغة."
+    },
+    "script": {
+      "noBehaviorsFound": "لم يتم إيجاد متصرف في هذا المكتوب."
+    }
+  }
+}

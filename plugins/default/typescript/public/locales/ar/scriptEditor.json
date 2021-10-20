@@ -1,0 +1,24 @@
+{
+  "applyChanges": "تطبيق التغيرات",
+  "applyChangesWithErrors": "تطبيق التغيرات مع الاخطاء",
+  "draft": "مسودة",
+
+  "errors": {
+    "noErrors": "لا توجد اخطاء",
+    "oneError": "خطاء واحد",
+    "severalErrors": "${errors} خطاً",
+
+    "selfErrorsInfo": "${errors} في هذا المكتوب",
+    "otherErrorsInfo": "${errors} في المكاتيب الاخرى",
+    "bothErrorsInfo": "${selfErrors}, ${otherErrors}",
+
+    "line": "خط",
+    "message": "رسالة",
+    "script": "مكتوب"
+  },
+
+  "globalSearch": {
+    "prompt": "البحث في جميع مكاتيب Typescript.",
+    "placeholder": "أوجد في المشروع"
+  }
+}

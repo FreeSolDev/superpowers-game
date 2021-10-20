@@ -1,0 +1,19 @@
+{
+  "ArcadeBody2D": {
+    "label": "جسم افتراضي ثنائي الابعاد.",
+    "type": "النوع",
+    "typeOptions": {
+      "box": "صندوق",
+      "tileMap": "خريطة بلاطية"
+    },
+
+    "movable": "قابل للحركة",
+    "size": "الحجم",
+    "offset": "التعديل",
+    "bounce": "مطاطي",
+
+    "tileMap": "خريطة بلاطية",
+    "tileSetProperty": "خصائص رزمة البلاط",
+    "layers": "شريحة"
+  }
+}

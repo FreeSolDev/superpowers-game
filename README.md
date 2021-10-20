@@ -15,7 +15,7 @@ Make 2D and 3D games in live collaboration with [Superpowers](http://superpowers
  - Add an error log panel on shader editor, expose sprite opacity to shaders and add a new default shader with color, opacity, alpha-testing and alpha-premultiplication taken into account
 
 ### Breaking change :
- - Update Three.js to r94, many plugins need some minor adjustement & type disambiguation
+ - Update Three.js to r111, many plugins need some minor adjustement & type disambiguation
  - Precompile-script branch merged (cf https://github.com/superpowers/superpowers-game/commits/precompile-scripts). Most plugins need to be updated
  - The shaders are no longer treated as always transparent. The alpha-testing need to be taken into account now (cf default shader)
  - Same thing with the alpha premultiplication

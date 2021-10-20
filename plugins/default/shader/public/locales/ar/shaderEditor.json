@@ -1,0 +1,33 @@
+{
+  "status": {
+    "noErrors": "لا توجد اخطاء",
+    "oneError": "خطاء واحد",
+    "severalErrors": "${errors} خطاً",
+
+    "oneWarning": "تحذير واحد",
+    "severalWarnings": "${warnings} تحذيراً",
+
+    "line": "خط",
+    "type": "نمط",
+    "message": "رسالة",
+    "file": "ملف"
+  },
+  
+  "uniforms": "الموحدات",
+  "newUniform": "موحد جديد",
+  "attributes": "الصفات",
+  "newAttribute": "صفة جديدة",
+  "name": "الاسم",
+  "type": "النوع",
+  "value": "القيمة",
+  "useLights": "إستخدم الاضواء",
+  "preview": "معاينة",
+  "plane": "سطح مستوي",
+  "box" : "مكعب",
+  "sphere": "كرة",
+  "screen": "شاشة",
+  "asset": "معد",
+  "assetPath": "مسار المعد",
+  "vertexShader": "تظليل النقاط",
+  "fragmentShader": "تظليل الجزيئات"
+}

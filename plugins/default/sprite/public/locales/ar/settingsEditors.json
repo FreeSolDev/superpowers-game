@@ -1,0 +1,11 @@
+{
+  "Sprite": {
+    "label": "صورة",
+    "filtering": "المؤثرات",
+    "nearest": "الاقرب",
+    "linear": "الخطي",
+    "framesPerSecond": "إطار لكل ثانية",
+    "pixelsPerUnit": "بسكلً لكل وحدة",
+    "alphaTesting": "تجريب اولي"
+  }
+}

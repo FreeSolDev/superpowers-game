@@ -1,0 +1,30 @@
+{
+  "Light": {
+    "label": "ضوء",
+    "type": "نوع",
+    "typeOptions": {
+      "ambient": "فراغي",
+      "point": "تاشيري",
+      "spot": "مركزي",
+      "directional": "توجيهي"
+    },
+
+    "color": "اللون",
+    "intensity": "الحدة",
+    "distance": "البعد",
+    "angle": "الزاوية",
+    "target": "الهدف",
+    "castShadow": "إلقاء بظل",
+    
+    "shadowSettings": {
+      "title": "إعدادات الظل",
+      "mapSize": "حجم الخريطة",
+      "bias": "Bias",
+      "darkness": "الظلمية",
+      "near-far": "قريب / بعيد",
+      "fov": "إطار الرؤية",
+      "top-bottom": "قمة / قاع",
+      "left-right": "يسار / يمين"
+    }
+  }
+}

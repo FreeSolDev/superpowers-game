@@ -1,0 +1,77 @@
+{
+  "preview": {
+    "playback": "تشغيل خلفي",
+    "loop": "عاود"
+  },
+  "sidebar": {
+    "settings": {
+      "sprite": {
+        "title": "صورة",
+        "texture": {
+          "title": "قشرة",
+          "size": "حجم القشرة (بكسل)",
+          "download": {
+            "prompt": "أدخل اسما للصورة.",
+            "defaultName": "Image"
+          }
+        },
+        "grid": {
+          "size": "حجم الشبكة",
+          "setup": "إعداد",
+          "widthPrompt": "كم إطار لكل صف؟",
+          "setWidth": "تعديل عرض الشبكة",
+          "heightPrompt": "كم إطار لكل عمود؟",
+          "setHeight": "تعديل طول الشبكة"
+        },
+        "origin": "الأساس (%)"
+      },
+      "rendering": {
+        "title": "العَرض",
+        "pixelsPerUnit": "بكسل / وحدة",
+        "filtering": {
+          "title": "المؤثرات",
+          "nearest": "الأقرب",
+          "linear": "خطي"
+        },
+        "wrapping": {
+          "title": "لإلتفاف",
+          "clampToEdge": "تمسك على الحواف",
+          "repeat": "مكرر",
+          "mirroredRepeat": "مكرر عكسي"
+        },
+        "opacity": {
+          "title": "الشفافية",
+          "opaque": "قاتم",
+          "transparent": "شفاف"
+        },
+        "alphaTest": "إختبار اولي"
+      },
+      "animation": {
+         "title": "حركة",
+         "framesPerSecond": "إطاراً / ثانية",
+         "frameOrder": {
+           "title": "رتبت الإطار",
+           "rows": "صفوف",
+           "columns": "أعمدة"
+         }
+      }
+    },
+    "animations": {
+      "title": "الحركات",
+      "newAnimationPrompt": "أدخل اسما للحركة الجديدة.",
+      "renameAnimationPrompt": "أدخل اسم جديد للحركة.",
+      "deleteAnimationPrompt": "هل حقا تريد حذف الحركات المحددة؟"
+    },
+    "advancedTextures": {
+      "title": "إعدادات قشرة متقدمة",
+      "map": "مرسوم",
+      "lightMap": "مرسوم الضوء",
+      "specularMap": "مرسوم الإنعكاس",
+      "alphaMap": "مرسوم ألفا",
+      "normalMap": "مرسوم الطبيعي (فونغ)",
+      "newMapPrompt": "ادخل اسما جديدً للمرسوم.",
+      "renameMapPrompt": "ادخل اسما جديدً للـقشرة.",
+      "deleteMapPrompt": "هل انت متأكد من حذف المحدد من القشر؟"
+    }
+  }
+}

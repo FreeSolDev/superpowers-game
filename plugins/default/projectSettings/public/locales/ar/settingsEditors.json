@@ -1,0 +1,9 @@
+{
+  "Project": {
+    "label": "مشروع",
+    "deleteTrashedAssetsFromDisk": "حذف المعدات المرميه في سلة المهملات",
+    "noFoldersRemoved": "لم تتم ازالة اي ملف",
+    "oneFolderRemoved": "تم ازالة ملف واحد",
+    "severalFoldersRemoved": "ملفات ${folders} تم حذف"
+  }
+}

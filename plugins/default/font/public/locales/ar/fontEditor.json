@@ -1,0 +1,29 @@
+{
+  "type": "نوع الحط",
+  "typeOptions": {
+    "bitmap": "Bitmap",
+    "vector": "Vector Font"
+  },
+  "font": {
+    "title": "الخط",
+    "download": {
+      "prompt": "أدخل اسما للخط",
+      "defaultName": "font"
+    }
+  },
+  "texture": "القشرة",
+  "rendering": "العارضي",
+  "filtering": "المؤثرات",
+  "nearest": "الاقرب",
+  "linear": "خطي",
+  "pixelsPerUnit": "بكسل / وحدة",
+  "color": "لون",
+  "opacity": "الشفافية",
+  "opaque": "قاتم",
+  "transparent": "شفاف",
+  "settings": "الإعدادات",
+  "size": "الحجم (بكسل)",
+  "gridSize": "حجم الشبكة",
+  "charset": "مجموعة الحروف",
+  "charsetOffset": "تعديل مجموعة الحروف"
+}

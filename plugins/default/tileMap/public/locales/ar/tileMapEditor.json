@@ -1,0 +1,30 @@
+{
+  "tileMap": "خريطة بلاطية",
+  "tileSet": "رزمة بلاط",
+  "pixelsPerUnit": "بكسل / وحدة",
+  "depthOffset": "معدل العمق",
+
+  "size": "حجم",
+  "resize": "تغيير الحجم",
+  "newWidthPrompt": "أدخل عرض جديد للخريطة.",
+  "newHeightPrompt": "أدخل طول جديد للخريطة.",
+  "move": "حرك",
+  "applyOffset": "تطبيق التعديل",
+  "horizontalOffsetPrompt": "أدخل رقم التعديل الافقي.",
+  "verticalOffsetPrompt": "أدخل رقم التعديل العمودي.",
+  
+  "tools": "أدوات",
+  "grid": "شبكة",
+  "highlight": "إبراز",
+  
+  "brush": "فرشاة",
+  "fill": "ملء",
+  "selection": "التحديد",
+  "eraser": "ممحاة",
+  
+  "layers": "شرائح",
+  "newLayerPrompt": "أدخل اسما للشريحة.",
+  "newLayerInitialValue": "شريحة",
+  "renameLayerPrompt": "أدخل اسما جديداً للشريحة.",
+  "deleteLayerConfirm": "هل حقا تريد حذف الشرائح المحددة؟"
+}

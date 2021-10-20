@@ -1,0 +1,17 @@
+{
+  "ModelRenderer": {
+    "label": "عارض المجسمات",
+    "model": "مجسم",
+    "searchModelPlaceholder": "البحث عن مجسم",
+    "animation": "الحركة",
+    "shadow": {
+      "title": "ظل",
+      "cast": "إلقاء",
+      "receive": "تلقي"
+    },
+    "color": "لون",
+    "opacity": "شفافية",
+    "material": "خامة",
+    "shader": "تظليل"
+  }
+}

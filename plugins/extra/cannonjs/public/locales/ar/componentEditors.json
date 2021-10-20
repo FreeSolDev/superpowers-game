@@ -1,0 +1,22 @@
+{
+  "CannonBody": {
+    "label": "Cannon جسم",
+    "mass": "الكتلة",
+    "fixedRotation": "دوران ثابت",
+    "group": "مجموعة",
+    "mask": "قناع",
+    "shape": "الشكل",
+    "shapeType": "النوع",
+    "shapeOptions": {
+      "box": "صندوق",
+      "sphere": "كرة",
+      "cylinder": "إسطوانة"
+    },
+    "positionOffset": "تعديل الموقع",
+    "orientationOffset": "تعديل الإلتفاف",
+    "halfSize": "نصف حجم",
+    "radius": "نصف القطر (نق)",
+    "height": "الطول",
+    "segments": "أقسام"
+  }
+}

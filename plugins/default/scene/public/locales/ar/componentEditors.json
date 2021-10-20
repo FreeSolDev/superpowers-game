@@ -1,0 +1,28 @@
+{
+  "Camera": {
+    "label": "كاميرا",
+    "mode": "نمط",
+    "modeOptions": {
+      "perspective": "منظوري",
+      "orthographic": "مستوي"
+    },
+    "fieldOfView": "إطار الرؤية",
+    "orthographicScale": "مستوى التصوير المستوي",
+    "depth": "عمق",
+    "depthTitle": "يستخدم في تحديد ترتيب المعالجة للعديد من الكاميرات",
+    "layers": "شرائح",
+    "layersTitle": "اي شريحة تتم معالجتها و في اي ترتيب",
+    "nearPlane": "أقرب سطح علاجي",
+    "farPlane": "أبعد سطح علاجي",
+    "clearColor": "تصفية اللون",
+    "viewport": {
+      "title": "مجال الرؤية",
+      "position": "قمة / يسار",
+      "size": "العرض / الطول"
+    },
+    "postProcessing": {
+      "use": "مؤثرات ما بعد المعالجة",
+      "stack": "حزمة مؤثرات"
+    }
+  }
+}

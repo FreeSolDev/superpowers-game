@@ -1,0 +1,62 @@
+{
+  "status": {
+    "noErrors": "لا توجد اخطاء",
+    "oneError": "خطاء واحد",
+    "severalErrors": "${errors} خطاً",
+
+    "oneWarning": "تنبيه واحد",
+    "severalWarnings": "${warnings} تنبيهاً",
+
+    "line": "خط",
+    "type": "نوع",
+    "message": "رسالة",
+    "file": "ملف"
+  },
+
+  "sidebar": {
+    "settings": {
+      "model": "مجسم",
+      "texture": "قشرة",
+      "filtering": {
+        "title": "المؤثرات",
+        "nearest": "قريب",
+        "linear": "بعيد"
+      },
+      "wrapping": {
+        "title": "التفاف",
+        "clampToEdge": "تمسك على الحواف",
+        "repeat": "مكرر",
+        "mirroredRepeat": "مكرر عكسي"
+      },
+      "showSkeleton": "إظهار الهيكل",
+      "unitRatio": "نسبة الوحدة",
+      "opacity": {
+        "title": "الشفافية",
+        "opaque": "قاتم",
+        "transparent": "شفاف"
+        }
+    },
+    "animations": {
+      "title": "الحركات",
+      "new": {
+        "prompt": "ادخل اسما للحركة.",
+        "initialValue": "حركة"
+      },
+      "renamePrompt": "ادخل اسما جديدً للحركة.",
+      "deleteConfirm": "هل انت متأكد من حذف الحركات المحدده?"
+    },
+    "advancedTextures": {
+      "title": "قشر متقدمة",
+      "map": "مرسوم",
+      "lightMap": "مرسوم الضوء",
+      "specularMap": "مرسوم الإنعكاس",
+      "alphaMap": "مرسوم ألفا",
+      "normalMap": "مرسوم الطبيعي (فونغ)",
+      "newMapPrompt": "ادخل اسما جديدً للمرسوم.",
+      "renameMapPrompt": "ادخل اسما جديدً للـقشرة.",
+      "deleteMapConfirm": "هل انت متأكد من حذف المحدد من القشر؟",
+      "downloadPrompt": "أدخل اسما للصورة.",
+      "downloadInitialValue": "صورة"
+    }
+  }
+}

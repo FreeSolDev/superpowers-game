@@ -1,0 +1,12 @@
+{
+  "Game": {
+    "label": "لعبة",
+    "startupScene": "مشهد بدأ التشغيل",
+    "framesPerSecond": "إطار لكل ثانية",
+    "screenRatio": "ابعاد الشاشة",
+    "width": "عرض",
+    "height": "طول",
+    "layers": "شرائح",
+    "newLayer": "شريحة جديدة...."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "TileMap": {
+    "label": "خريطة بلاطية",
+    "pixelsPerUnit": "بكسلاً لكل وحدة",
+    "defaultWidth": "العرض الافتراضي",
+    "defaultHeight": "الطول الافتراضي",
+    "depthOffset": "معدل العمق",
+    "tileSetGridSize": "حجم شبكة رزمة البلاط"
+  }
+}

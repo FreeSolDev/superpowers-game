@@ -1,0 +1,12 @@
+{
+  "game": {
+    "title": "HTML5 مخرج",
+    "progress": "يخرج إلى ${path}... (${index}/${total})",
+    "doneWithErrors": "تلقيَ ${errors} خطأ في المحاولة لإخراج ${total} عنصر إلى ${path}.",
+    "done": "اخرج ${total} عنصر إلى ${path}.",
+
+    "errors": {
+      "exportFailed": "خظأ في الإخراج${path} : ${error}"
+    }
+  }
+}

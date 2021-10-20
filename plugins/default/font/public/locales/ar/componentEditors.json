@@ -1,0 +1,25 @@
+{
+  "TextRenderer": {
+    "label": "عارض النصوص",
+    "font": "الخط",
+    "text": "النص",
+    "align": {
+      "title": "الإصطفاف",
+      "left": "يسار",
+      "center": "منتصف",
+      "right": "سمسن"
+    },
+    "verticalAlign": {
+      "title": "الإصطفاف العمودي",
+      "top": "قمة",
+      "center": "منتصف",
+      "bottom": "قاع"
+    },
+    "size": "حجم",
+    "color": "لون",
+    "opacity": "شفافية",
+    "opaque": "قاتم",
+    "transparent": "شفاف"
+
+  }
+}

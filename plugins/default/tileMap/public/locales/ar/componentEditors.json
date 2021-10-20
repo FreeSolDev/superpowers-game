@@ -1,0 +1,14 @@
+{
+  "TileMapRenderer": {
+    "label": "عارض الخريطة البلاطية",
+    "tileMap": "خريطة بلاطية",
+    "tileSet": "رزمة بلاط",
+    "shadow": {
+      "title": "طل",
+      "cast": "إلقاء",
+      "receive": "تلقي"
+    },
+    "material": "خامة",
+    "shader": "تظليل"
+  }
+}

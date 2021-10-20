@@ -1,0 +1,77 @@
+{
+  "3dView": {
+    "settings": {
+      "title": "الإعدادات",
+      "linkShapeToPivot": "توصيل الشكل يالمفصل"
+    },
+    "transform": {
+      "title": "إحداثيات",
+      "movePivot": "حرك المفصل",
+      "moveShape": "حرك الشكل",
+      "rotate": "دوران",
+      "stretch": "تمديد",
+      "local": "محلي"
+    },
+    "grid": {
+      "title": "شبكة",
+      "size": "حجم",
+      "visible": "مرئي"
+    }
+  },
+  "textureView": {
+    "mode": {
+      "title": "نمط",
+      "layout": "شكل الخارجي",
+      "paint": "رسم"
+    },
+    "layoutMode": {
+      "title": "الإعدادات",
+      "linkTextureToUV": "توصيل القشرة بمتغير (UV)."
+    },
+    "paintMode": {
+      "tool": "أداوات",
+      "brush": "فرشاة",
+      "eraser": "ممحاة",
+      "fill": "ملء",
+      "color": "اللون"
+    }
+  },
+  "sidebar": {
+    "settings": {
+      "cubicModel": {
+        "title": "مجسم مكعبي",
+        "pixelsPerUnit": "بكسل لكل وحدة",
+        "texture": "قشرة",
+        "download": {
+          "defaultName": "Texture",
+          "prompt": ".أدخل اسما للقشرة"
+        },
+        "textureSize": "حجم القشرة (px)"
+      }
+    },
+    "nodes": {
+      "title": "خلية",
+      "newNode": {
+        "title": "خلية جديدة",
+        "prompt": "أدخل اسما للخلية."
+      },
+      "renamePrompt": "أدخل اسما جديدا للخلية.",
+      "duplicatePrompt": "أدخل اسما للخلية الجديدة.",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذة الخلية؟",
+      "hide": "إخفاء",
+      "show": "إظهار"
+    },
+    "inspector": {
+      "position": "موقع",
+      "orientation": "التمحور",
+      "shape": "شكل",
+      "shapeType": "نوع",
+      "shapeOptions": {
+        "box": "صندوق"
+      },
+      "offset": "التعديل",
+      "size": "الحجم",
+      "stretch": "التمديد"
+    }
+  }
+}

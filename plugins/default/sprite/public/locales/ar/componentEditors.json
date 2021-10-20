@@ -1,0 +1,21 @@
+{
+  "SpriteRenderer": {
+    "label": "عارض الصور",
+    "sprite": "صورة",
+    "animation": "حركة",
+    "animationNone": "(لاشيء)",
+    "flip": "إقلب",
+    "shadow": {
+      "title": "ظل",
+      "cast": "إلقاء",
+      "receive": "تلقي"
+    },
+    "color": "لون",
+    "opacity": "شفافية",
+    "transparent": "شفاف",
+    "opaque": "قاتم",
+    "material": "خامة",
+    "shader": "تظليل",
+    "blendMode": "نمط الاختلاط"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "searchPlaceholder": "أوجد في المشروع",
+  "matchCase": "حالات التطابق",
+
+  "noResults": "لم توجد أي نتائج",
+  "resultInfo": "${results} في ${files}",
+  "fileInfo": "${results} في \"${fileName}\"",
+
+  "oneResult": "ناتج واحد فقط",
+  "severalResults": "${results} ناتجاً",
+  "oneFile": "ملف واحد فقط",
+  "severalFiles": "${files} ملفاً"
+}

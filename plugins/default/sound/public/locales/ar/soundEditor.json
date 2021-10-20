@@ -1,0 +1,17 @@
+{
+  "sidebar": {
+    "settings": {
+      "sound": {
+        "title": "صوت",
+        "file": {
+          "title": "ملف",
+          "download": {
+            "defaultName": "Sound.wav",
+            "prompt": "أدخل اسم الصوت"
+          }
+        },
+        "streaming": "بث"
+      }
+    }
+  }
+}

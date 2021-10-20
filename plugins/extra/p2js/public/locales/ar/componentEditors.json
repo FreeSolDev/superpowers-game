@@ -1,0 +1,16 @@
+{
+  "P2Body": {
+    "label": "P2 جسم",
+    "mass": "الكتلة",
+    "fixedRotation": "دوران ثابت",
+    "offset": "تعديل",
+    "angle": "الزاوية",
+    "shape": "الشكل",
+    "shapeOptions": {
+      "box": "صندوق",
+      "circle": "دائرة"
+    },
+    "size": "حجم",
+    "radius": "نصف القطر (نق)"
+  }
+}

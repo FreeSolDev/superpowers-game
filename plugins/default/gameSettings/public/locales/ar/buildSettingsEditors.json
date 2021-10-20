@@ -1,0 +1,13 @@
+{
+  "game": {
+    "label": "إفتراضي",
+    "description": "إخراج كـا HTML5",
+    
+    "outputFolder": "مجلد الإخراج",
+    "errors": {
+      "selectDestionationFolder": "أختر مجلد الإرساء.",
+      "emptyDirectoryCheckFail": "تعذر كشف ما إن كان المجلد المحدد فارغً.",
+      "destinationFolderEmpty": "مجلد الإرساء يجب ان يكون فارغ."
+    }
+  }
+}
