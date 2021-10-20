@@ -93,8 +93,7 @@ export default class Input extends EventEmitter {
     this.canvas.addEventListener("dblclick", this.onMouseDblClick);
     document.addEventListener("mouseup", this.onMouseUp);
     this.canvas.addEventListener("contextmenu", this.onContextMenu);
-    this.canvas.addEventListener("DOMMouseScroll", this.onMouseWheel);
-    this.canvas.addEventListener("mousewheel", this.onMouseWheel);
+    this.canvas.addEventListener("wheel", this.onMouseWheel);
 
     const compatDoc = document as any;
     if ("onpointerlockchange" in compatDoc) compatDoc.addEventListener("pointerlockchange", this.onPointerLockChange, false);
@@ -146,8 +145,7 @@ export default class Input extends EventEmitter {
     this.canvas.removeEventListener("mousedown", this.onMouseDown);
     document.removeEventListener("mouseup", this.onMouseUp);
     this.canvas.removeEventListener("contextmenu", this.onContextMenu);
-    this.canvas.removeEventListener("DOMMouseScroll", this.onMouseWheel);
-    this.canvas.removeEventListener("mousewheel", this.onMouseWheel);
+    this.canvas.removeEventListener("wheel", this.onMouseWheel);
 
     const compatDoc = document as any;
     if ("onpointerlockchange" in compatDoc) compatDoc.removeEventListener("pointerlockchange", this.onPointerLockChange, false);
@@ -364,7 +362,7 @@ export default class Input extends EventEmitter {
     event.preventDefault();
   }
 
-  private onMouseWheel = (event: MouseWheelEvent) => {
+  private onMouseWheel = (event: WheelEvent) => {
     event.preventDefault();
     this.newScrollDelta = ((event as any).wheelDelta > 0 || event.detail < 0) ? 1 : -1;
     return false;
@@ -426,11 +424,7 @@ export default class Input extends EventEmitter {
   }
 
   private onKeyPress = (event: KeyboardEvent) => {
-    if (event.keyCode > 0 && event.keyCode < 32) return;
-
-    if (event.char != null) this.newTextEntered += event.char;
-    else if (event.charCode !== 0) this.newTextEntered += String.fromCharCode(event.charCode);
-    else this.newTextEntered += String.fromCharCode(event.keyCode);
+    if (event.key.length === 1) this.newTextEntered += event.key;
   }
 
   private onKeyUp = (event: KeyboardEvent) => {

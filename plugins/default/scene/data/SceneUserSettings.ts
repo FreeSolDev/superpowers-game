@@ -13,6 +13,9 @@ export let pub: {
   formatVersion: 1,
   showGridByDefault: false,
   defaultGridSize: 1,
+
+  // A little ugly, need to be global across all plugins not just in scene
+  // TODO: move elsewhere or definitively change controls to be more consistent with other softwares
   controlSchemes: "superpowers"
 };
 
