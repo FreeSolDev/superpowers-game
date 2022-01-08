@@ -1,6 +1,7 @@
 import { data } from "./network";
 import ui, { setupSelectedNode } from "./ui";
 import { renderOverlay, createAxes } from "./axesGizmo";
+import { SceneActorData } from "../../components/SceneUpdater";
 
 const THREE = SupEngine.THREE;
 
@@ -11,6 +12,8 @@ const engine: {
   cameraActor: SupEngine.Actor;
   cameraComponent: any;
   cameraControls: any;
+
+  selectedActorsData: SceneActorData;
 
   selectionBoxComponent: SelectionBox;
   transformHandleComponent: TransformHandle;
@@ -226,13 +229,26 @@ export function focusActor(selectedNodeId: string) {
 }
 
 export function setupHelpers() {
+  if (engine.selectedActorsData) {
+    for (let component in engine.selectedActorsData.bySceneComponentId) {
+      let componentUpdater = engine.selectedActorsData.bySceneComponentId[component].componentUpdater;
+      componentUpdater?.onActorSelected?.(false);
+    }
+  }
+
   const nodeElt = ui.nodesTreeView.selectedNodes[0];
-  if (nodeElt != null && ui.nodesTreeView.selectedNodes.length === 1) {
-    engine.selectionBoxComponent.setTarget(data.sceneUpdater.bySceneNodeId[nodeElt.dataset["id"]].actor.threeObject);
-    engine.transformHandleComponent.setTarget(data.sceneUpdater.bySceneNodeId[nodeElt.dataset["id"]].actor.threeObject);
-  } else {
-    engine.selectionBoxComponent.setTarget(null);
-    engine.transformHandleComponent.setTarget(null);
+  if (nodeElt != null && ui.nodesTreeView.selectedNodes.length === 1)
+    engine.selectedActorsData = data.sceneUpdater.bySceneNodeId[nodeElt.dataset["id"]];
+  else
+    engine.selectedActorsData = null;
+
+  engine.selectionBoxComponent.setTarget(engine.selectedActorsData?.actor.threeObject);
+  engine.transformHandleComponent.setTarget(engine.selectedActorsData?.actor.threeObject);
+
+  if (engine.selectedActorsData == null) return;
+  for (let component in engine.selectedActorsData.bySceneComponentId) {
+    let componentUpdater = engine.selectedActorsData.bySceneComponentId[component].componentUpdater;
+    componentUpdater?.onActorSelected?.(true);
   }
 }
 

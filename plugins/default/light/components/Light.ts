@@ -1,17 +1,14 @@
 const THREE = SupEngine.THREE;
-import LightUpdater from "./LightUpdater";
 
 export default class Light extends SupEngine.ActorComponent {
-  /* tslint:disable:variable-name */
-  static Updater = LightUpdater;
-  /* tslint:enable:variable-name */
-
   light: THREE.AmbientLight|THREE.PointLight|THREE.SpotLight|THREE.DirectionalLight;
   type: string;
   color = 0xffffff;
   intensity = 1;
   distance = 0;
-  angle = Math.PI / 3;
+  angle = 60;
+  penumbra = 0.1;
+  decay = 1.0;
   target = new THREE.Vector3(0, 0, 0);
   castShadow = false;
 
@@ -22,7 +19,7 @@ export default class Light extends SupEngine.ActorComponent {
     camera: {
       near: 0.1,
       far: 100,
-      fov: 50,
+      focus: 1,
       left: -100,
       right: 100,
       top: 100,
@@ -48,15 +45,18 @@ export default class Light extends SupEngine.ActorComponent {
         this.light = new THREE.PointLight(this.color, this.intensity, this.distance);
         break;
       case "spot":
-        const spotLight = new THREE.SpotLight(this.color, this.intensity, this.distance, this.angle * Math.PI / 180);
+        const spotLight = new THREE.SpotLight(this.color, this.intensity, this.distance, this.angle * Math.PI / 360, this.penumbra, this.decay);
         spotLight.target.position.copy(this.target);
         spotLight.target.updateMatrixWorld(false);
         spotLight.shadow.mapSize.copy(this.shadow.mapSize);
         spotLight.shadow.bias = this.shadow.bias;
-        spotLight.shadow.camera = new THREE.PerspectiveCamera(
-          this.shadow.camera.fov,
-          this.shadow.mapSize.x / this.shadow.mapSize.y,
-          this.shadow.camera.near, this.shadow.camera.far);
+        spotLight.shadow.mapSize.width = this.shadow.mapSize.x;
+        spotLight.shadow.mapSize.height = this.shadow.mapSize.y;
+        spotLight.shadow.camera.near = this.shadow.camera.near;
+        spotLight.shadow.camera.far = this.shadow.camera.far;
+        spotLight.shadow.focus = this.shadow.camera.focus;
+        spotLight.shadow.updateMatrices(spotLight);
+
         this.light = spotLight;
         this.setCastShadow(this.castShadow);
         break;
@@ -75,6 +75,7 @@ export default class Light extends SupEngine.ActorComponent {
         break;
     }
     this.actor.threeObject.add(this.light);
+    this.light.position.set(0, 0, 0);
     this.light.updateMatrixWorld(false);
 
     this.actor.gameInstance.threeScene.traverse((object: any) => {
@@ -100,7 +101,21 @@ export default class Light extends SupEngine.ActorComponent {
 
   setAngle(angle: number) {
     this.angle = angle;
-    if (this.type === "spot") (<THREE.SpotLight>this.light).angle = this.angle * Math.PI / 180;
+    if (this.type !== "spot") return;
+
+    const light = (this.light as THREE.SpotLight);
+    light.angle = this.angle * Math.PI / 360;
+    light.shadow.updateMatrices(light);
+  }
+
+  setPenumbra(penumbra: number) {
+    this.penumbra = penumbra;
+    if (this.type === "spot") (<THREE.SpotLight>this.light).penumbra = this.penumbra;
+  }
+
+  setDecay(decay: number) {
+    this.decay = decay;
+    if (this.type === "spot") (<THREE.SpotLight>this.light).decay = this.decay;
   }
 
   setTarget(x: number, y: number, z: number) {
@@ -162,14 +177,13 @@ export default class Light extends SupEngine.ActorComponent {
     camera.updateProjectionMatrix();
   }
 
-  setShadowCameraFov(fov: number) {
-    this.shadow.camera.fov = fov;
+  setShadowCameraFocus(focus: number) {
+    this.shadow.camera.focus = focus;
     if (this.type !== "spot") return;
 
-    const shadow = (this.light as THREE.SpotLight|THREE.DirectionalLight).shadow;
-    const camera = <THREE.PerspectiveCamera>shadow.camera;
-    camera.fov = this.shadow.camera.fov;
-    camera.updateProjectionMatrix();
+    const shadow = (this.light as THREE.SpotLight).shadow;
+    shadow.focus = this.shadow.camera.focus;
+    shadow.updateMatrices(this.light);
   }
 
   setShadowCameraSize(top: number, bottom: number, left: number, right: number) {

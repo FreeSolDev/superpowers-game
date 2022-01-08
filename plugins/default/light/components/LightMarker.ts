@@ -1,9 +1,25 @@
 const THREE = SupEngine.THREE;
 import Light from "./Light";
+import LightUpdater from "./LightUpdater";
 
 export default class LightMarker extends Light {
+  /* tslint:disable:variable-name */
+  static Updater = LightUpdater;
+  /* tslint:enable:variable-name */
+
   lightMarker: THREE.PointLightHelper|THREE.SpotLightHelper|THREE.DirectionalLightHelper;
   cameraHelper: THREE.CameraHelper;
+  icon: THREE.Sprite;
+
+  constructor(actor: SupEngine.Actor) {
+    super(actor);
+
+    const textureLoader = new THREE.TextureLoader();
+    const map = textureLoader.load( "images/lightIcon.png" );
+    const material = new THREE.SpriteMaterial( { map: map, color: this.color } );
+    this.icon = new THREE.Sprite(material);
+    this.actor.threeObject.add(this.icon);
+  }
 
   setType(type: string) {
     if (this.lightMarker != null) this.actor.gameInstance.threeScene.remove(this.lightMarker);
@@ -23,23 +39,23 @@ export default class LightMarker extends Light {
         break;
       case "spot":
         this.lightMarker = new THREE.SpotLightHelper(this.light as THREE.SpotLight);
-        // if (this.castShadow) this.cameraHelper = new THREE.CameraHelper((<THREE.SpotLight>this.light).shadowCamera);
         break;
       case "directional":
         this.lightMarker = new THREE.DirectionalLightHelper(this.light as THREE.DirectionalLight, 1);
-        // if (this.castShadow) this.cameraHelper = new THREE.CameraHelper((<THREE.DirectionalLight>this.light).shadowCamera);
         break;
     }
 
     if (this.lightMarker != null) {
       this.actor.gameInstance.threeScene.add(this.lightMarker);
       this.lightMarker.updateMatrixWorld(true);
+      this.lightMarker.visible = false;
     }
-    // if (type === "spot" && this.cameraHelper != null && this.castShadow) this.actor.gameInstance.threeScene.add(this.cameraHelper);
+    this.icon.material.color.setHex(this.color);
   }
 
   setColor(color: number) {
     super.setColor(color);
+    this.icon.material.color.setHex(color);
     if (this.lightMarker != null) this.lightMarker.update();
   }
 
@@ -56,6 +72,17 @@ export default class LightMarker extends Light {
   setAngle(angle: number) {
     super.setAngle(angle);
     if (this.lightMarker != null) this.lightMarker.update();
+    if (this.cameraHelper != null) this.cameraHelper.update(); // for spotlight
+  }
+
+  setPenumbra(penumbra: number) {
+    super.setPenumbra(penumbra);
+    if (this.lightMarker != null) this.lightMarker.update();
+  }
+
+  setDecay(decay: number) {
+    super.setDecay(decay);
+    if (this.lightMarker != null) this.lightMarker.update();
   }
 
   setTarget(x: number, y: number, z: number) {
@@ -68,6 +95,7 @@ export default class LightMarker extends Light {
     if (castShadow) {
       this.cameraHelper = new THREE.CameraHelper((this.light as THREE.DirectionalLight|THREE.SpotLight).shadow.camera);
       this.actor.gameInstance.threeScene.add(this.cameraHelper);
+      this.cameraHelper.visible = false;
     } else {
       this.actor.gameInstance.threeScene.remove(this.cameraHelper);
       this.cameraHelper = null;
@@ -84,14 +112,19 @@ export default class LightMarker extends Light {
     if (this.cameraHelper != null) this.cameraHelper.update();
   }
 
-  setShadowCameraFov(fov: number) {
-    super.setShadowCameraFov(fov);
+  setShadowCameraFocus(focus: number) {
+    super.setShadowCameraFocus(focus);
     if (this.cameraHelper != null) this.cameraHelper.update();
   }
 
   setShadowCameraSize(top: number, bottom: number, left: number, right: number) {
     super.setShadowCameraSize(top, bottom, left, right);
     if (this.cameraHelper != null) this.cameraHelper.update();
+  }
+
+  onActorSelected(isSelected: boolean) {
+    if (this.lightMarker != null) this.lightMarker.visible = isSelected;
+    if (this.cameraHelper != null) this.cameraHelper.visible = isSelected;
   }
 
   update() {

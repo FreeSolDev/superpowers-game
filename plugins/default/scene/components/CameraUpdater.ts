@@ -42,4 +42,9 @@ export default class CameraUpdater {
   onResourceEdited = (resourceId: string, command: string, propertyName: string) => {
     this.updateRatio();
   }
+
+  private onActorSelected(isSelected: boolean) {
+    if ((this.camera as any).onActorSelected != null)
+      (this.camera as any).onActorSelected(isSelected);
+  }
 }

@@ -11,6 +11,8 @@ export default class LightUpdater {
     this.light.color = parseInt(config.color, 16);
     this.light.intensity = config.intensity;
     this.light.distance = config.distance;
+    this.light.penumbra = config.penumbra;
+    this.light.decay = config.decay;
     this.light.angle = config.angle;
     this.light.target.set(config.target.x, config.target.y, config.target.z);
 
@@ -19,7 +21,7 @@ export default class LightUpdater {
     this.light.shadow.bias = config.shadowBias;
     this.light.shadow.camera.near = config.shadowCameraNearPlane;
     this.light.shadow.camera.far = config.shadowCameraFarPlane;
-    this.light.shadow.camera.fov = config.shadowCameraFov;
+    this.light.shadow.camera.focus = config.shadowCameraFocus;
     this.light.shadow.camera.left = config.shadowCameraSize.left;
     this.light.shadow.camera.right = config.shadowCameraSize.right;
     this.light.shadow.camera.top = config.shadowCameraSize.top;
@@ -55,6 +57,12 @@ export default class LightUpdater {
       case "angle":
         this.light.setAngle(value);
         break;
+      case "penumbra":
+        this.light.setPenumbra(value);
+        break;
+      case "decay":
+        this.light.setDecay(value);
+        break;
       case "target.x":
         this.light.setTarget(value, null, null);
         break;
@@ -82,8 +90,8 @@ export default class LightUpdater {
       case "shadowCameraFarPlane":
         this.light.setShadowCameraFarPlane(value);
         break;
-      case "shadowCameraFov":
-        this.light.setShadowCameraFov(value);
+      case "shadowCameraFocus":
+        this.light.setShadowCameraFocus(value);
         break;
       case "shadowCameraSize.top":
         this.light.setShadowCameraSize(value, null, null, null);
@@ -125,5 +133,10 @@ export default class LightUpdater {
 
   private onLightResourceEdited = (resourceId: string, command: string, propertyName: string) => {
     if (command === "setProperty" && propertyName === "shadowMapType") this.updateLightShadowMap();
+  }
+
+  private onActorSelected(isSelected: boolean) {
+    if ((this.light as any).onActorSelected != null)
+      (this.light as any).onActorSelected(isSelected);
   }
 }

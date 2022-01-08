@@ -10,6 +10,13 @@ interface SceneUpdaterConfig {
   isInPrefab: boolean;
 }
 
+export class SceneActorData {
+  actor: SupEngine.Actor;
+  markerActor: SupEngine.Actor;
+  bySceneComponentId: { [id: string]: { component: any; componentUpdater: any } };
+  prefabUpdater: SceneUpdater;
+}
+
 export default class SceneUpdater {
   gameInstance: SupEngine.GameInstance;
   rootActor: SupEngine.Actor;
@@ -17,12 +24,7 @@ export default class SceneUpdater {
   sceneAsset: SceneAsset;
   isInPrefab: boolean;
 
-  bySceneNodeId: { [id: string]: {
-    actor: SupEngine.Actor;
-    markerActor: SupEngine.Actor;
-    bySceneComponentId: { [id: string]: { component: any; componentUpdater: any } };
-    prefabUpdater: SceneUpdater;
-  } } = {};
+  bySceneNodeId: { [id: string]: SceneActorData } = {};
 
   sceneSubscriber: SupClient.AssetSubscriber;
 

@@ -50,6 +50,18 @@ export default class LightEditor {
       this.editConfig("setProperty", "angle", parseFloat(event.target.value));
     });
 
+    const penumbraRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.penumbra"));
+    this.fields["penumbra"] = SupClient.table.appendNumberField(penumbraRow.valueCell, config.penumbra, { min: 0, max: 1, step: 0.01 });
+    this.fields["penumbra"].addEventListener("change", (event: any) => {
+      this.editConfig("setProperty", "penumbra", parseFloat(event.target.value));
+    });
+
+    const decayRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.decay"));
+    this.fields["decay"] = SupClient.table.appendNumberField(decayRow.valueCell, config.decay, { min: 0, step: 0.05 });
+    this.fields["decay"].addEventListener("change", (event: any) => {
+      this.editConfig("setProperty", "decay", parseFloat(event.target.value));
+    });
+
     const targetRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.target"));
     const targetFields = SupClient.table.appendNumberFields(targetRow.valueCell, [config.target.x, config.target.y, config.target.z], { step: "any" });
     this.fields["target.x"] = targetFields[0];
@@ -87,7 +99,7 @@ export default class LightEditor {
     this.shadowRows.push(shadowMapSizeRow.row);
 
     const shadowBiasRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.shadowSettings.bias"));
-    this.fields["shadowBias"] = SupClient.table.appendNumberField(shadowBiasRow.valueCell, config.shadowBias, { step: "any" });
+    this.fields["shadowBias"] = SupClient.table.appendNumberField(shadowBiasRow.valueCell, config.shadowBias, { step: 0.00001 });
     this.fields["shadowBias"].addEventListener("change", (event: any) => {
       this.editConfig("setProperty", "shadowBias", parseFloat(event.target.value));
     });
@@ -105,12 +117,12 @@ export default class LightEditor {
     });
     this.shadowRows.push(shadowPlanesRow.row);
 
-    const shadowCameraFovRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.shadowSettings.fov"));
-    this.fields["shadowCameraFov"] = SupClient.table.appendNumberField(shadowCameraFovRow.valueCell, config.shadowCameraFov, { step: "any" });
-    this.fields["shadowCameraFov"].addEventListener("change", (event: any) => {
-      this.editConfig("setProperty", "shadowCameraFov", parseFloat(event.target.value));
+    const shadowCameraFocusRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.shadowSettings.focus"));
+    this.fields["shadowCameraFocus"] = SupClient.table.appendNumberField(shadowCameraFocusRow.valueCell, config.shadowCameraFocus, { step: "0.01", min: 0, max: 1 });
+    this.fields["shadowCameraFocus"].addEventListener("change", (event: any) => {
+      this.editConfig("setProperty", "shadowCameraFocus", parseFloat(event.target.value));
     });
-    this.shadowRows.push(shadowCameraFovRow.row);
+    this.shadowRows.push(shadowCameraFocusRow.row);
 
     const shadowCameraTopBottomRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("componentEditors:Light.shadowSettings.top-bottom"));
     const shadowCameraTopBottomFields = SupClient.table.appendNumberFields(shadowCameraTopBottomRow.valueCell, [config.shadowCameraSize.top, config.shadowCameraSize.bottom], { step: "any" });
@@ -159,6 +171,8 @@ export default class LightEditor {
     const intensityRow = this.fields["intensity"].parentElement.parentElement;
     const distanceRow = this.fields["distance"].parentElement.parentElement;
     const angleRow = this.fields["angle"].parentElement.parentElement;
+    const penumbraRow = this.fields["penumbra"].parentElement.parentElement;
+    const decayRow = this.fields["decay"].parentElement.parentElement;
     const targetRow = this.fields["target.x"].parentElement.parentElement.parentElement;
     const castShadowRow = this.fields["castShadow"].parentElement.parentElement;
 
@@ -166,6 +180,8 @@ export default class LightEditor {
       intensityRow.hidden = true;
       distanceRow.hidden = true;
       angleRow.hidden = true;
+      penumbraRow.hidden = true;
+      decayRow.hidden = true;
       targetRow.hidden = true;
       castShadowRow.hidden = true;
       for (const shadowRow of this.shadowRows) shadowRow.hidden = true;
@@ -174,6 +190,8 @@ export default class LightEditor {
       intensityRow.hidden = false;
       distanceRow.hidden = type === "directional";
       angleRow.hidden = type !== "spot";
+      penumbraRow.hidden = type !== "spot";
+      decayRow.hidden = type !== "spot";
 
       if (type === "spot" || type === "directional") {
         targetRow.hidden = false;
@@ -185,7 +203,7 @@ export default class LightEditor {
             this.fields["shadowCameraSize.top"].parentElement.parentElement.parentElement.hidden = true;
             this.fields["shadowCameraSize.left"].parentElement.parentElement.parentElement.hidden = true;
           } else {
-            this.fields["shadowCameraFov"].parentElement.parentElement.hidden = true;
+            this.fields["shadowCameraFocus"].parentElement.parentElement.hidden = true;
           }
         } else {
           for (const shadowRow of this.shadowRows) shadowRow.hidden = true;

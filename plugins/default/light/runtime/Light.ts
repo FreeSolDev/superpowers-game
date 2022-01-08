@@ -30,7 +30,7 @@ export function setupComponent(player: SupRuntime.Player, component: Light, conf
   component.shadow.bias = config.shadowBias;
   component.shadow.camera.near = config.shadowCameraNearPlane;
   component.shadow.camera.far = config.shadowCameraFarPlane;
-  component.shadow.camera.fov = config.shadowCameraFov;
+  component.shadow.camera.focus = config.shadowCameraFocus;
   component.shadow.camera.left = config.shadowCameraSize.left;
   component.shadow.camera.right = config.shadowCameraSize.right;
   component.shadow.camera.top = config.shadowCameraSize.top;

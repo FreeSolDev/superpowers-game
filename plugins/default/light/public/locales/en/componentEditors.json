@@ -13,6 +13,8 @@
     "intensity": "Intensity",
     "distance": "Distance",
     "angle": "Angle",
+    "penumbra": "Penumbra",
+    "decay": "Decay",
     "target": "Target",
     "castShadow": "Cast Shadow",
     
@@ -23,6 +25,7 @@
       "darkness": "Darkness",
       "near-far": "Near / Far",
       "fov": "Fov",
+      "focus": "Focus",
       "top-bottom": "Top / Bottom",
       "left-right": "Left / Right"
     }

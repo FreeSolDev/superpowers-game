@@ -17,6 +17,8 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
 
   projectionNeedsUpdate: boolean;
   line: THREE.LineSegments;
+  icon: THREE.Sprite;
+  lineVisible: boolean;
 
   constructor(actor: SupEngine.Actor) {
     super(actor, "Marker");
@@ -31,9 +33,16 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
     this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5, transparent: true } ));
     this.actor.threeObject.add(this.line);
     this.line.updateMatrixWorld(false);
+
+    const textureLoader = new THREE.TextureLoader();
+    const map = textureLoader.load( "images/cameraIcon.png" );
+    const material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
+    this.icon = new THREE.Sprite(material);
+    this.actor.threeObject.add(this.icon);
+    this.lineVisible = false;
   }
 
-  setIsLayerActive(active: boolean) { this.line.visible = active; }
+  setIsLayerActive(active: boolean) { this.line.visible = active && (this.lineVisible || this.isOrthographic); }
 
   setConfig(config: any) {
     this.setOrthographicMode(config.mode === "orthographic");
@@ -50,6 +59,7 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
   setOrthographicMode(isOrthographic: boolean) {
     this.isOrthographic = isOrthographic;
     this.projectionNeedsUpdate = true;
+    this.icon.visible = !isOrthographic;
   }
 
   setFOV(fov: number) {
@@ -136,6 +146,10 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
     vertices[23].set( -farTopRight.x,  -farTopRight.y, -far);
 
     (<THREE.Geometry>this.line.geometry).verticesNeedUpdate = true;
+  }
+
+  onActorSelected(isSelected: boolean) {
+    this.lineVisible = isSelected;
   }
 
   _destroy() {
