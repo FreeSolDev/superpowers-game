@@ -37,9 +37,9 @@ class CannonBodyMarker extends SupEngine.ActorComponent {
     const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xf459e4, transparent: true, opacity: 0.2 });
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.quaternion.setFromEuler(new THREE.Euler(
-      THREE.Math.degToRad(orientationOffset.x),
-      THREE.Math.degToRad(orientationOffset.y),
-      THREE.Math.degToRad(orientationOffset.z)
+      THREE.MathUtils.degToRad(orientationOffset.x),
+      THREE.MathUtils.degToRad(orientationOffset.y),
+      THREE.MathUtils.degToRad(orientationOffset.z)
     ));
     this.markerActor.threeObject.add(this.mesh);
     this.mesh.updateMatrixWorld(false);
@@ -58,9 +58,9 @@ class CannonBodyMarker extends SupEngine.ActorComponent {
     const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xf459e4, transparent: true, opacity: 0.2 });
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.quaternion.setFromEuler(new THREE.Euler(
-      THREE.Math.degToRad((orientationOffset.x + 90)),
-      THREE.Math.degToRad(orientationOffset.y),
-      THREE.Math.degToRad(orientationOffset.z)
+      THREE.MathUtils.degToRad((orientationOffset.x + 90)),
+      THREE.MathUtils.degToRad(orientationOffset.y),
+      THREE.MathUtils.degToRad(orientationOffset.z)
     ));
     this.markerActor.threeObject.add(this.mesh);
     this.mesh.updateMatrixWorld(false);

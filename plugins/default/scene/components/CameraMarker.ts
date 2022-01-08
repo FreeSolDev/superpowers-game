@@ -99,7 +99,7 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
       nearTopRight = new THREE.Vector3(right, this.orthographicScale / 2, near);
     }
     else {
-      const tan = Math.tan(THREE.Math.degToRad(this.fov / 2));
+      const tan = Math.tan(THREE.MathUtils.degToRad(this.fov / 2));
       farTopRight = new THREE.Vector3(far * tan, far * tan, far);
       nearTopRight = farTopRight.clone().normalize().multiplyScalar(near);
     }

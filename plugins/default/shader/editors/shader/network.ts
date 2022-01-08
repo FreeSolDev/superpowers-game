@@ -136,18 +136,31 @@ function onAssetTrashed() {
 }
 
 const gl = document.createElement("canvas").getContext("webgl") as WebGLRenderingContext;
-function unrollLoops(shader: string) {
-  let pattern = /#pragma unroll_loop[\s]+?for \( int i \= (\d+)\; i < (\d+)\; i \+\+ \) \{([\s\S]+?)(?=\})\}/g;
 
-  function replacer(match: string, start: string, end: string, snippet: string) {
-    let unroll = "";
-    for (let i = parseInt(start, 10); i < parseInt(end, 10); i++) {
-      unroll += snippet.replace(/\[ i \]/g, "[ " + i + " ]");
-    }
-    return unroll;
+// Unroll Loops, taken from three/src/renderers/webgl/WebGLProgram.js
+
+let deprecatedUnrollLoopPattern = /#pragma unroll_loop[\s]+?for \( int i \= (\d+)\; i < (\d+)\; i \+\+ \) \{([\s\S]+?)(?=\})\}/g;
+let unrollLoopPattern = /#pragma unroll_loop_start[\s]+?for \( int i \= (\d+)\; i < (\d+)\; i \+\+ \) \{([\s\S]+?)(?=\})\}[\s]+?#pragma unroll_loop_end/g;
+
+function unrollLoops(string: string) {
+  return string
+    .replace( unrollLoopPattern, loopReplacer )
+    .replace( deprecatedUnrollLoopPattern, deprecatedLoopReplacer );
+}
+
+function deprecatedLoopReplacer(match: string, start: string, end: string, snippet: string) {
+  console.warn("WebGLProgram: #pragma unroll_loop shader syntax is deprecated. Please use #pragma unroll_loop_start syntax instead.");
+  return loopReplacer( match, start, end, snippet );
+}
+
+function loopReplacer(match: string, start: string, end: string, snippet: string) {
+  let string = "";
+  for (let i = parseInt(start, 10); i < parseInt(end, 10); i ++ ) {
+    string += snippet
+      .replace( /\[ i \]/g, "[ " + i + " ]" )
+      .replace( /UNROLLED_LOOP_INDEX/g, "" + i );
   }
-
-  return shader.replace(pattern, replacer);
+  return string;
 }
 
 function replaceShaderChunk(shader: string) {

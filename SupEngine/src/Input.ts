@@ -92,8 +92,8 @@ export default class Input extends EventEmitter {
     this.canvas.addEventListener("mousedown", this.onMouseDown);
     this.canvas.addEventListener("dblclick", this.onMouseDblClick);
     document.addEventListener("mouseup", this.onMouseUp);
-    this.canvas.addEventListener("contextmenu", this.onContextMenu);
     this.canvas.addEventListener("wheel", this.onMouseWheel);
+    this.canvas.addEventListener("contextmenu", this.onContextMenu);
 
     const compatDoc = document as any;
     if ("onpointerlockchange" in compatDoc) compatDoc.addEventListener("pointerlockchange", this.onPointerLockChange, false);
@@ -143,9 +143,10 @@ export default class Input extends EventEmitter {
 
     this.canvas.removeEventListener("mousemove", this.onMouseMove);
     this.canvas.removeEventListener("mousedown", this.onMouseDown);
+    this.canvas.removeEventListener("dblclick", this.onMouseDblClick);
     document.removeEventListener("mouseup", this.onMouseUp);
-    this.canvas.removeEventListener("contextmenu", this.onContextMenu);
     this.canvas.removeEventListener("wheel", this.onMouseWheel);
+    this.canvas.removeEventListener("contextmenu", this.onContextMenu);
 
     const compatDoc = document as any;
     if ("onpointerlockchange" in compatDoc) compatDoc.removeEventListener("pointerlockchange", this.onPointerLockChange, false);

@@ -66,7 +66,7 @@ options?: { useDraft?: boolean, defaultUniforms?: { [name: string]: { type: stri
         break;
     }
 
-    const triangleCount = (<THREE.BufferAttribute>geometry.getAttribute("position")).length / 3;
+    const triangleCount = geometry.getAttribute("position").count / 3;
     for (let v = 0; v < triangleCount; v++) {
       for (let i = 0; i < itemSize; i++) values.push(Math.random());
     }

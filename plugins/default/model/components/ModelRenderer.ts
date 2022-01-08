@@ -163,7 +163,7 @@ export default class ModelRenderer extends SupEngine.ActorComponent {
 
       if (this.asset.upAxisMatrix != null) {
         const upAxisMatrix = new THREE.Matrix4().fromArray(this.asset.upAxisMatrix);
-        this.threeMesh.applyMatrix(upAxisMatrix);
+        this.threeMesh.applyMatrix4(upAxisMatrix);
       }
 
       const bones: THREE.Bone[] = [];
@@ -173,7 +173,7 @@ export default class ModelRenderer extends SupEngine.ActorComponent {
         const bone = new THREE.Bone();
         bone.name = boneInfo.name;
         this.bonesByName[bone.name] = bone;
-        bone.applyMatrix(tmpBoneMatrix.fromArray(boneInfo.matrix));
+        bone.applyMatrix4(tmpBoneMatrix.fromArray(boneInfo.matrix));
         bones.push(bone);
       }
 
@@ -250,7 +250,7 @@ export default class ModelRenderer extends SupEngine.ActorComponent {
       this.skeletonHelper.root = this.skeletonHelper;
       if (this.asset.upAxisMatrix != null) {
         const upAxisMatrix = new THREE.Matrix4().fromArray(this.asset.upAxisMatrix);
-        this.skeletonHelper.applyMatrix(upAxisMatrix);
+        this.skeletonHelper.applyMatrix4(upAxisMatrix);
       }
       (<THREE.LineBasicMaterial>this.skeletonHelper.material).linewidth = 3;
       this.threeMesh.add(this.skeletonHelper);

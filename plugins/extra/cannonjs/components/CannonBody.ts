@@ -56,9 +56,9 @@ export default class CannonBody extends SupEngine.ActorComponent {
 
     if (config.orientationOffset != null) {
       this.orientationOffset = {
-        x: THREE.Math.degToRad(config.orientationOffset.x),
-        y: THREE.Math.degToRad(config.orientationOffset.y),
-        z: THREE.Math.degToRad(config.orientationOffset.z)
+        x: THREE.MathUtils.degToRad(config.orientationOffset.x),
+        y: THREE.MathUtils.degToRad(config.orientationOffset.y),
+        z: THREE.MathUtils.degToRad(config.orientationOffset.z)
       };
     } else {
       this.orientationOffset = { x: 0, y: 0, z: 0 };

@@ -274,14 +274,14 @@ export function setInspectorOrientation(orientation: THREE.Quaternion) {
   const euler = new THREE.Euler().setFromQuaternion(orientation);
 
   const values = [
-    roundForInspector(THREE.Math.radToDeg(euler.x)).toString(),
-    roundForInspector(THREE.Math.radToDeg(euler.y)).toString(),
-    roundForInspector(THREE.Math.radToDeg(euler.z)).toString()
+    roundForInspector(THREE.MathUtils.radToDeg(euler.x)).toString(),
+    roundForInspector(THREE.MathUtils.radToDeg(euler.y)).toString(),
+    roundForInspector(THREE.MathUtils.radToDeg(euler.z)).toString()
   ];
 
   // Work around weird conversion from quaternion to euler conversion
   if (values[1] === "180" && values[2] === "180") {
-    values[0] = roundForInspector(180 - THREE.Math.radToDeg(euler.x)).toString();
+    values[0] = roundForInspector(180 - THREE.MathUtils.radToDeg(euler.x)).toString();
     values[1] = "0";
     values[2] = "0";
   }
@@ -551,7 +551,7 @@ function onInspectorInputChange(event: any) {
     };
 
     if (propertyType === "orientation") {
-      const euler = new THREE.Euler(THREE.Math.degToRad(value.x), THREE.Math.degToRad(value.y), THREE.Math.degToRad(value.z));
+      const euler = new THREE.Euler(THREE.MathUtils.degToRad(value.x), THREE.MathUtils.degToRad(value.y), THREE.MathUtils.degToRad(value.z));
       const quaternion = new THREE.Quaternion().setFromEuler(euler);
       value = { x: quaternion.x, y: quaternion.y, z: quaternion.z, w: quaternion.w };
     }

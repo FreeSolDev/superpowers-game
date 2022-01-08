@@ -9,7 +9,7 @@
     "url": "https://github.com/togimaro/superpowers-game.git"
   },
   "dependencies": {
-    "three": "0.110.0"
+    "three": "0.118.3"
   },
   "devDependencies": {
     "gulp-uglify": "3.0.2",
