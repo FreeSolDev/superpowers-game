@@ -46,6 +46,8 @@ export default class SelectionBox extends SupEngine.ActorComponent {
     inverseTargetMatrixWorld.getInverse(inverseTargetMatrixWorld);
 
     this.target.traverse((node) => {
+      if (node.userData.dontShowBound) return;
+
       const geometry: THREE.Geometry|THREE.BufferGeometry = (<any>node).geometry;
 
       if (geometry != null) {

@@ -33,12 +33,14 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
     this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5, transparent: true } ));
     this.actor.threeObject.add(this.line);
     this.line.updateMatrixWorld(false);
+    this.line.userData.dontShowBound = true;
 
     const textureLoader = new THREE.TextureLoader();
     const map = textureLoader.load( "images/cameraIcon.png" );
     const material = new THREE.SpriteMaterial( { map: map, color: 0xffffff } );
     this.icon = new THREE.Sprite(material);
     this.actor.threeObject.add(this.icon);
+    this.icon.userData.dontShowBound = true;
     this.lineVisible = false;
   }
 

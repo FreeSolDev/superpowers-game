@@ -19,6 +19,7 @@ export default class LightMarker extends Light {
     const material = new THREE.SpriteMaterial( { map: map, color: this.color } );
     this.icon = new THREE.Sprite(material);
     this.actor.threeObject.add(this.icon);
+    this.icon.userData.dontShowBound = true;
   }
 
   setType(type: string) {
