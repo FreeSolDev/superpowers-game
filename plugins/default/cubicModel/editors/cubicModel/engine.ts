@@ -183,20 +183,22 @@ function mouseUp() {
 }
 
 export function setupHelpers() {
+  let selectedNodes = [];
+  for (let elt of ui.nodesTreeView.selectedNodes) {
+    if (elt != null) selectedNodes.push(data.cubicModelUpdater.cubicModelRenderer.byNodeId[elt.dataset["id"]]);
+  }
+
+  const mode = engine.transformHandleComponent.mode;
+  engine.transformHandleComponent.setTarget(selectedNodes.map(d => (mode === "rotate" || (mode === "translate" && ui.translateMode !== "shape")) ? d.pivot : d.shape)?.[0]);
+  engine.selectionBoxComponent.setTargets(selectedNodes.map(d => d.shape));
+
   const nodeElt = ui.nodesTreeView.selectedNodes[0];
   if (nodeElt != null && ui.nodesTreeView.selectedNodes.length === 1) {
-    const { pivot, shape } = data.cubicModelUpdater.cubicModelRenderer.byNodeId[nodeElt.dataset["id"]];
+    const { pivot } = data.cubicModelUpdater.cubicModelRenderer.byNodeId[nodeElt.dataset["id"]];
 
     engine.transformMarkerComponent.move(pivot);
-    engine.selectionBoxComponent.setTarget(shape);
-
-    const mode = engine.transformHandleComponent.mode;
-    const handleTarget = (mode === "rotate" || (mode === "translate" && ui.translateMode !== "shape")) ? pivot : shape;
-    engine.transformHandleComponent.setTarget(handleTarget);
   } else {
     engine.transformMarkerComponent.hide();
-    engine.selectionBoxComponent.setTarget(null);
-    engine.transformHandleComponent.setTarget(null);
   }
 }
 

@@ -13,7 +13,7 @@ const engine: {
   cameraComponent: any;
   cameraControls: any;
 
-  selectedActorsData: SceneActorData;
+  selectedActorsData: SceneActorData[];
 
   selectionBoxComponent: SelectionBox;
   transformHandleComponent: TransformHandle;
@@ -34,6 +34,8 @@ engine.cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraA
 engine.cameraComponent.layers = [ 0, -1 ];
 engine.cameraComponent.setFarClippingPlane(510);
 engine.cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, engine.cameraComponent);
+
+engine.selectedActorsData = [];
 
 engine.ambientLight = new THREE.AmbientLight(0xcfcfcf);
 
@@ -228,28 +230,26 @@ export function focusActor(selectedNodeId: string) {
   if (ui.cameraMode === "3D") engine.cameraActor.moveOriented(new THREE.Vector3(0, 0, 20));
 }
 
-export function setupHelpers() {
-  if (engine.selectedActorsData) {
-    for (let component in engine.selectedActorsData.bySceneComponentId) {
-      let componentUpdater = engine.selectedActorsData.bySceneComponentId[component].componentUpdater;
-      componentUpdater?.onActorSelected?.(false);
+function notifySelectedComponent(selected: boolean) {
+  for (let actorData of engine.selectedActorsData) {
+    for (let component in actorData.bySceneComponentId) {
+      let componentUpdater = actorData.bySceneComponentId[component].componentUpdater;
+      componentUpdater?.onActorSelected?.(selected);
     }
   }
+}
 
-  const nodeElt = ui.nodesTreeView.selectedNodes[0];
-  if (nodeElt != null && ui.nodesTreeView.selectedNodes.length === 1)
-    engine.selectedActorsData = data.sceneUpdater.bySceneNodeId[nodeElt.dataset["id"]];
-  else
-    engine.selectedActorsData = null;
+export function setupHelpers() {
+  notifySelectedComponent(false);
 
-  engine.selectionBoxComponent.setTarget(engine.selectedActorsData?.actor.threeObject);
-  engine.transformHandleComponent.setTarget(engine.selectedActorsData?.actor.threeObject);
-
-  if (engine.selectedActorsData == null) return;
-  for (let component in engine.selectedActorsData.bySceneComponentId) {
-    let componentUpdater = engine.selectedActorsData.bySceneComponentId[component].componentUpdater;
-    componentUpdater?.onActorSelected?.(true);
+  engine.selectedActorsData = [];
+  for (let elt of ui.nodesTreeView.selectedNodes) {
+    if (elt != null) engine.selectedActorsData.push(data.sceneUpdater.bySceneNodeId[elt.dataset["id"]]);
   }
+
+  engine.selectionBoxComponent.setTargets(engine.selectedActorsData?.map(d => d.actor.threeObject));
+  engine.transformHandleComponent.setTarget(engine.selectedActorsData?.map(d => d.actor.threeObject)?.[0]);
+  notifySelectedComponent(true);
 }
 
 function onTransformChange() {

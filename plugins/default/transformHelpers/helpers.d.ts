@@ -1,5 +1,5 @@
 interface SelectionBox extends SupEngine.ActorComponent {
-  setTarget(target: THREE.Object3D): void;
+  setTargets(targets: THREE.Object3D[]): void;
   move(): void;
   resize(): void;
 }
