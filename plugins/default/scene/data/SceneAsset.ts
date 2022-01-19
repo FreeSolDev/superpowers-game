@@ -264,7 +264,7 @@ export default class SceneAsset extends SupCore.Data.Base.Asset {
     const parentNode = this.nodes.parentNodesById[node.id];
     if (parentNode != null) {
       const parentGlobalMatrix = this.computeGlobalMatrix(parentNode);
-      matrix.multiplyMatrices(new THREE.Matrix4().getInverse(parentGlobalMatrix), matrix);
+      matrix.multiplyMatrices(parentGlobalMatrix.clone().invert(), matrix);
     }
 
     const position = new THREE.Vector3();

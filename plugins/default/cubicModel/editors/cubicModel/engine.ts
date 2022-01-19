@@ -229,7 +229,7 @@ function onTransformChange() {
 
       if (parent.userData.cubicNodeId != null) {
         const inverseParentMatrix = parent.matrixWorld.clone();
-        inverseParentMatrix.getInverse(inverseParentMatrix);
+        inverseParentMatrix.invert();
         position.applyMatrix4(inverseParentMatrix);
 
         if (ui.translateMode !== "shape") {
@@ -252,7 +252,7 @@ function onTransformChange() {
 
       const orientation = object.getWorldQuaternion(new THREE.Quaternion());
       if (target.parent != null) {
-        const q = target.parent.getWorldQuaternion(new THREE.Quaternion()).inverse();
+        const q = target.parent.getWorldQuaternion(new THREE.Quaternion()).invert();
         orientation.multiply(q);
       }
       value = { x: orientation.x, y: orientation.y, z: orientation.z, w: orientation.w };

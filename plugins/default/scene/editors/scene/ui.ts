@@ -585,7 +585,7 @@ function createNewNode(name: string, prefab: boolean) {
 
   if (options.parentId != null) {
     const parentMatrix = data.sceneUpdater.bySceneNodeId[options.parentId].actor.getGlobalMatrix(new THREE.Matrix4());
-    position.applyMatrix4(parentMatrix.getInverse(parentMatrix));
+    position.applyMatrix4(parentMatrix.invert());
   }
   (options as any).transform = { position };
   (options as any).prefab = prefab;

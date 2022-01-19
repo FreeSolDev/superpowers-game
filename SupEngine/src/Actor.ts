@@ -83,7 +83,7 @@ export default class Actor {
   }
 
   setGlobalMatrix(matrix: THREE.Matrix4) {
-    matrix.multiplyMatrices(new THREE.Matrix4().getInverse(this.threeObject.parent.matrixWorld), matrix);
+    matrix.multiplyMatrices(this.threeObject.parent.matrixWorld.clone().invert(), matrix);
     matrix.decompose(this.threeObject.position, this.threeObject.quaternion, this.threeObject.scale);
     this.threeObject.updateMatrixWorld(false);
   }
@@ -115,7 +115,7 @@ export default class Actor {
   }
 
   setGlobalOrientation(quaternion: THREE.Quaternion) {
-    const inverseParentQuaternion = new THREE.Quaternion().setFromRotationMatrix(tmpMatrix.extractRotation(this.threeObject.parent.matrixWorld)).inverse();
+    const inverseParentQuaternion = new THREE.Quaternion().setFromRotationMatrix(tmpMatrix.extractRotation(this.threeObject.parent.matrixWorld)).invert();
     quaternion.multiplyQuaternions(inverseParentQuaternion, quaternion);
     this.threeObject.quaternion.copy(quaternion);
     this.threeObject.updateMatrixWorld(false);
@@ -128,7 +128,7 @@ export default class Actor {
 
   setGlobalEulerAngles(eulerAngles: THREE.Euler) {
     const globalQuaternion = new THREE.Quaternion().setFromEuler(eulerAngles);
-    const inverseParentQuaternion = new THREE.Quaternion().setFromRotationMatrix(tmpMatrix.extractRotation(this.threeObject.parent.matrixWorld)).inverse();
+    const inverseParentQuaternion = new THREE.Quaternion().setFromRotationMatrix(tmpMatrix.extractRotation(this.threeObject.parent.matrixWorld)).invert();
     globalQuaternion.multiplyQuaternions(inverseParentQuaternion, globalQuaternion);
     this.threeObject.quaternion.copy(globalQuaternion);
     this.threeObject.updateMatrixWorld(false);

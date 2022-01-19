@@ -656,7 +656,7 @@ export function importModel(files: File[], callback: ImportCallback) {
       if (gltf.asset.generator === "collada2gltf@abb81d52ce290268fdb67b96f5bc5c620dee5bb5") {
         // The Y_UP_Transform matrix needed to be reversed
         // prior to this pull request: https://github.com/KhronosGroup/glTF/pull/332
-        upAxisMatrix.getInverse(upAxisMatrix);
+        upAxisMatrix.invert();
       }
     }
 

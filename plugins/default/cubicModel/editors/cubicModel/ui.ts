@@ -434,7 +434,7 @@ function onNewNodeClick() {
     const pixelsPerunit = data.cubicModelUpdater.cubicModelAsset.pub.pixelsPerUnit;
 
     if (options.parentId != null) {
-      const inverseParentMatrix = new THREE.Matrix4().getInverse(data.cubicModelUpdater.cubicModelRenderer.byNodeId[options.parentId].pivot.matrixWorld);
+      const inverseParentMatrix = data.cubicModelUpdater.cubicModelRenderer.byNodeId[options.parentId].pivot.matrixWorld.clone().invert();
       position.applyMatrix4(inverseParentMatrix);
     } else {
       position.multiplyScalar(pixelsPerunit);

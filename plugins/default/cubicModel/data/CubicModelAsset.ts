@@ -385,7 +385,7 @@ export default class CubicModelAsset extends SupCore.Data.Base.Asset {
       if (err != null) { callback(err); return; }
 
       const newInverseMatrix = this.computeGlobalMatrix(node);
-      newInverseMatrix.getInverse(newInverseMatrix);
+      newInverseMatrix.invert();
 
       const offset = new THREE.Vector3(node.shape.offset.x, node.shape.offset.y, node.shape.offset.z);
       offset.applyMatrix4(oldMatrix).applyMatrix4(newInverseMatrix);
@@ -405,7 +405,7 @@ export default class CubicModelAsset extends SupCore.Data.Base.Asset {
     this.nodes.client_setProperty(id, "position", value);
 
     const newInverseMatrix = this.computeGlobalMatrix(node);
-    newInverseMatrix.getInverse(newInverseMatrix);
+    newInverseMatrix.invert();
 
     const offset = new THREE.Vector3(node.shape.offset.x, node.shape.offset.y, node.shape.offset.z);
     offset.applyMatrix4(oldMatrix).applyMatrix4(newInverseMatrix);
@@ -481,7 +481,7 @@ export default class CubicModelAsset extends SupCore.Data.Base.Asset {
       parentNode = this.nodes.parentNodesById[parentNode.id];
     }
 
-    matrix.multiplyMatrices(parentGlobalMatrix.getInverse(parentGlobalMatrix), matrix);
+    matrix.multiplyMatrices(parentGlobalMatrix.clone().invert(), matrix);
 
     const position = new THREE.Vector3();
     const orientation = new THREE.Quaternion();

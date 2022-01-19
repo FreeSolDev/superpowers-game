@@ -38,7 +38,7 @@ export default class SelectionBox extends SupEngine.ActorComponent {
         <THREE.Vector3>{ x: 1, y: 1, z: 1 }
       );
 
-      inverseTargetMatrixWorld.getInverse(inverseTargetMatrixWorld);
+      inverseTargetMatrixWorld.invert();
 
       const localBox = new THREE.Box3();
 

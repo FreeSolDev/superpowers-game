@@ -96,7 +96,7 @@ export default class CubicModelRendererUpdater {
     const parent = (parentId != null) ? this.cubicModelRenderer.byNodeId[parentId].pivot : this.cubicModelRenderer.threeRoot;
     parent.add(pivot);
 
-    matrix.multiplyMatrices(new THREE.Matrix4().getInverse(parent.matrixWorld), matrix);
+    matrix.multiplyMatrices(parent.matrixWorld.clone().invert(), matrix);
     matrix.decompose(pivot.position, pivot.quaternion, pivot.scale);
     pivot.updateMatrixWorld(false);
   }
