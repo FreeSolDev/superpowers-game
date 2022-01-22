@@ -269,7 +269,7 @@ function onTransformChange() {
       const position = object.getWorldPosition(new THREE.Vector3());
       if (target.parent != null) {
         const mtx = target.parent.getGlobalMatrix(new THREE.Matrix4());
-        mtx.getInverse(mtx);
+        mtx.invert();
         position.applyMatrix4(mtx);
       }
       value = { x: position.x, y: position.y, z: position.z };
@@ -280,7 +280,7 @@ function onTransformChange() {
 
       const orientation = object.getWorldQuaternion(new THREE.Quaternion());
       if (target.parent != null) {
-        const q = target.parent.getGlobalOrientation(new THREE.Quaternion()).inverse();
+        const q = target.parent.getGlobalOrientation(new THREE.Quaternion()).invert();
         orientation.multiply(q);
       }
       value = { x: orientation.x, y: orientation.y, z: orientation.z, w: orientation.w };

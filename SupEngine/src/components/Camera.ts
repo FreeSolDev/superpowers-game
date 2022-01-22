@@ -198,12 +198,19 @@ void main() {\n\
         orthographicCamera.top = this.orthographicScale / 2;
         orthographicCamera.bottom = -this.orthographicScale / 2;
         orthographicCamera.updateProjectionMatrix();
+
+        (this.unifiedThreeCamera as any).bottom = orthographicCamera.bottom;
+        (this.unifiedThreeCamera as any).top = orthographicCamera.top;
+        (this.unifiedThreeCamera as any).left = orthographicCamera.left;
+        (this.unifiedThreeCamera as any).right = orthographicCamera.right;
       }
       else {
         const perspectiveCamera = <THREE.PerspectiveCamera>this.threeCamera;
         perspectiveCamera.fov = this.fov;
         perspectiveCamera.aspect = this.cachedRatio;
         perspectiveCamera.updateProjectionMatrix();
+
+        (this.unifiedThreeCamera as any).fov = perspectiveCamera.fov;
       }
     }
 
