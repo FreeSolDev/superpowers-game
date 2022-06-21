@@ -1,11 +1,15 @@
 const THREE = SupEngine.THREE;
 import { ShaderAssetPub } from "../data/ShaderAsset";
 
-export function createShaderMaterial(asset: ShaderAssetPub, textures: { [name: string]: THREE.Texture }, geometry: THREE.BufferGeometry,
-options?: { useDraft?: boolean, defaultUniforms?: { [name: string]: { type: string; value: any } } }) {
+export function createShaderMaterial(
+  asset: ShaderAssetPub, 
+  textures: { [name: string]: THREE.Texture }, 
+  geometry: THREE.BufferGeometry,
+  options?: { useDraft?: boolean, defaultUniforms?: { [name: string]: THREE.IUniform } }
+) {
   if (asset == null) return null;
 
-  let uniforms: { [name: string]: { type: string; value: any }} =
+  let uniforms: { [name: string]: THREE.IUniform } =
     options != null && options.defaultUniforms != null ? THREE.UniformsUtils.clone(options.defaultUniforms) :
     {};
 
@@ -13,7 +17,7 @@ options?: { useDraft?: boolean, defaultUniforms?: { [name: string]: { type: stri
     uniforms = THREE.UniformsUtils.merge([uniforms, THREE.UniformsUtils.clone(THREE.UniformsLib.lights)]);
   }
 
-  uniforms["time"] = { type: "f", value: 0.0 };
+  uniforms["time"] = { value: 0.0 };
 
   for (const uniform of asset.uniforms) {
     let value: any;
@@ -42,7 +46,7 @@ options?: { useDraft?: boolean, defaultUniforms?: { [name: string]: { type: stri
         break;
     }
 
-    uniforms[uniform.name] = { type: uniform.type, value };
+    uniforms[uniform.name] = { value: value };
   }
 
   for (const attribute of asset.attributes) {
