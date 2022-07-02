@@ -119,7 +119,6 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     const topRight =    new THREE.Vector2();
 
     const uvs = geometry.getAttribute("uv");
-    console.log(uvs);
 
     // Left Face
     offset = node.shape.textureLayout["left"].offset;
