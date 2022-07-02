@@ -59,7 +59,7 @@ export default class GridRenderer extends ActorComponent {
   }
 
   _createMesh() {
-    let points: THREE.Vector3[];
+    let points: THREE.Vector3[] = [];
     // Vertical lines
     let x = 0;
     while (x <= this.width) {
