@@ -59,23 +59,24 @@ export default class GridRenderer extends ActorComponent {
   }
 
   _createMesh() {
-    const geometry = new THREE.Geometry();
-
+    let points: THREE.Vector3[];
     // Vertical lines
     let x = 0;
     while (x <= this.width) {
-      geometry.vertices.push(new THREE.Vector3(x / this.ratio.x, 0, 0));
-      geometry.vertices.push(new THREE.Vector3(x / this.ratio.x, this.direction * this.height / this.ratio.y, 0));
+      points.push(new THREE.Vector3(x / this.ratio.x, 0, 0));
+      points.push(new THREE.Vector3(x / this.ratio.x, this.direction * this.height / this.ratio.y, 0));
       x += 1;
     }
 
     // Horizontal lines
     let y = 0;
     while (y <= this.height) {
-      geometry.vertices.push(new THREE.Vector3(0, this.direction * y / this.ratio.y, 0));
-      geometry.vertices.push(new THREE.Vector3(this.width / this.ratio.x, this.direction * y / this.ratio.y, 0));
+      points.push(new THREE.Vector3(0, this.direction * y / this.ratio.y, 0));
+      points.push(new THREE.Vector3(this.width / this.ratio.x, this.direction * y / this.ratio.y, 0));
       y += 1;
     }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints(points);
 
     const material = new THREE.LineDashedMaterial({
       color: 0x000000, transparent: true, opacity: 0.4,

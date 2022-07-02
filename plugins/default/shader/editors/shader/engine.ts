@@ -61,10 +61,10 @@ export function setupPreview(options = { useDraft: false }) {
       previewGeometry = new THREE.PlaneBufferGeometry(2, 2);
       break;
     case "Box":
-      previewGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.BoxGeometry(2, 2, 2));
+      previewGeometry = new THREE.BoxGeometry(2, 2, 2);
       break;
     case "Sphere":
-      previewGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.SphereGeometry(2, 12, 12));
+      previewGeometry = new THREE.SphereGeometry(2, 12, 12);
       break;
     case "Screen":
       previewGeometry = new THREE.PlaneBufferGeometry(5.33, 4);

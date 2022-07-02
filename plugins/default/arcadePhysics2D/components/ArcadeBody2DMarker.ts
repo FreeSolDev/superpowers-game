@@ -30,14 +30,14 @@ export default class ArcadeBody2DMarker extends SupEngine.ActorComponent {
   setBox(width: number, height: number) {
     if (this.line != null) this._clearRenderer();
 
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints([
       new THREE.Vector3(-width / 2, -height / 2, 0.01),
       new THREE.Vector3( width / 2, -height / 2, 0.01),
       new THREE.Vector3( width / 2,  height / 2, 0.01),
       new THREE.Vector3(-width / 2,  height / 2, 0.01),
       new THREE.Vector3(-width / 2, -height / 2, 0.01)
-    );
+    ]);
 
     const material = new THREE.LineBasicMaterial({color: 0xf459e4});
 

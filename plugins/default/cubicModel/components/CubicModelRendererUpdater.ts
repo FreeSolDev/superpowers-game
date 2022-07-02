@@ -209,7 +209,7 @@ export default class CubicModelRendererUpdater {
   _onEditCommand_moveNodeTextureOffset(nodeIds: string[], offset: { x: number; y: number }) {
     for (const id of nodeIds) {
       const node = this.cubicModelAsset.nodes.byId[id];
-      const geometry = this.cubicModelRenderer.byNodeId[id].shape.geometry as THREE.Geometry;
+      const geometry = this.cubicModelRenderer.byNodeId[id].shape.geometry;
       this.cubicModelRenderer.updateBoxNodeUv(geometry, node);
     }
   }
@@ -221,7 +221,7 @@ export default class CubicModelRendererUpdater {
     for (const id in this.cubicModelAsset.nodes.byId) {
       const node = this.cubicModelAsset.nodes.byId[id];
       const shape = this.cubicModelRenderer.byNodeId[id].shape;
-      this.cubicModelRenderer.updateBoxNodeUv(shape.geometry as THREE.Geometry, node);
+      this.cubicModelRenderer.updateBoxNodeUv(shape.geometry, node);
 
       const material = shape.material as THREE.MeshBasicMaterial;
       material.map = this.cubicModelAsset.pub.textures["map"];

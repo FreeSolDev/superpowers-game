@@ -27,8 +27,8 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
 
     this.projectionNeedsUpdate = true;
 
-    const geometry = new THREE.Geometry();
-    for (let i = 0; i < 24; i++) geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(24 * 3), 3));
 
     this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5, transparent: true } ));
     this.actor.threeObject.add(this.line);
@@ -116,38 +116,39 @@ export default  class CameraMarker extends SupEngine.ActorComponent {
       nearTopRight = farTopRight.clone().normalize().multiplyScalar(near);
     }
 
-    const vertices = (<THREE.Geometry>this.line.geometry).vertices;
+    const vertices = this.line.geometry.getAttribute("position");
+
     // Near plane
-    vertices[0].set(-nearTopRight.x,  nearTopRight.y, -near);
-    vertices[1].set( nearTopRight.x,  nearTopRight.y, -near);
-    vertices[2].set( nearTopRight.x,  nearTopRight.y, -near);
-    vertices[3].set( nearTopRight.x, -nearTopRight.y, -near);
-    vertices[4].set( nearTopRight.x, -nearTopRight.y, -near);
-    vertices[5].set(-nearTopRight.x, -nearTopRight.y, -near);
-    vertices[6].set(-nearTopRight.x, -nearTopRight.y, -near);
-    vertices[7].set(-nearTopRight.x,  nearTopRight.y, -near);
+    vertices.setXYZ(0, -nearTopRight.x,  nearTopRight.y, -near);
+    vertices.setXYZ(1,  nearTopRight.x,  nearTopRight.y, -near);
+    vertices.setXYZ(2,  nearTopRight.x,  nearTopRight.y, -near);
+    vertices.setXYZ(3,  nearTopRight.x, -nearTopRight.y, -near);
+    vertices.setXYZ(4,  nearTopRight.x, -nearTopRight.y, -near);
+    vertices.setXYZ(5, -nearTopRight.x, -nearTopRight.y, -near);
+    vertices.setXYZ(6, -nearTopRight.x, -nearTopRight.y, -near);
+    vertices.setXYZ(7, -nearTopRight.x,  nearTopRight.y, -near);
 
     // Far plane
-    vertices[8].set( -farTopRight.x,  farTopRight.y, -far);
-    vertices[9].set(  farTopRight.x,  farTopRight.y, -far);
-    vertices[10].set( farTopRight.x,  farTopRight.y, -far);
-    vertices[11].set( farTopRight.x, -farTopRight.y, -far);
-    vertices[12].set( farTopRight.x, -farTopRight.y, -far);
-    vertices[13].set(-farTopRight.x, -farTopRight.y, -far);
-    vertices[14].set(-farTopRight.x, -farTopRight.y, -far);
-    vertices[15].set(-farTopRight.x,  farTopRight.y, -far);
+    vertices.setXYZ(8 , -farTopRight.x,  farTopRight.y, -far);
+    vertices.setXYZ(9 ,  farTopRight.x,  farTopRight.y, -far);
+    vertices.setXYZ(10,  farTopRight.x,  farTopRight.y, -far);
+    vertices.setXYZ(11,  farTopRight.x, -farTopRight.y, -far);
+    vertices.setXYZ(12,  farTopRight.x, -farTopRight.y, -far);
+    vertices.setXYZ(13, -farTopRight.x, -farTopRight.y, -far);
+    vertices.setXYZ(14, -farTopRight.x, -farTopRight.y, -far);
+    vertices.setXYZ(15, -farTopRight.x,  farTopRight.y, -far);
 
     // Lines
-    vertices[16].set(-nearTopRight.x,  nearTopRight.y, -near);
-    vertices[17].set( -farTopRight.x,   farTopRight.y, -far);
-    vertices[18].set( nearTopRight.x,  nearTopRight.y, -near);
-    vertices[19].set(  farTopRight.x,   farTopRight.y, -far);
-    vertices[20].set( nearTopRight.x, -nearTopRight.y, -near);
-    vertices[21].set(  farTopRight.x,  -farTopRight.y, -far);
-    vertices[22].set(-nearTopRight.x, -nearTopRight.y, -near);
-    vertices[23].set( -farTopRight.x,  -farTopRight.y, -far);
+    vertices.setXYZ(16, -nearTopRight.x,  nearTopRight.y, -near);
+    vertices.setXYZ(17, -farTopRight.x,   farTopRight.y,  -far);
+    vertices.setXYZ(18,  nearTopRight.x,  nearTopRight.y, -near);
+    vertices.setXYZ(19,  farTopRight.x,   farTopRight.y,  -far);
+    vertices.setXYZ(20,  nearTopRight.x, -nearTopRight.y, -near);
+    vertices.setXYZ(21,  farTopRight.x,  -farTopRight.y,  -far);
+    vertices.setXYZ(22, -nearTopRight.x, -nearTopRight.y, -near);
+    vertices.setXYZ(23, -farTopRight.x,  -farTopRight.y,  -far);
 
-    (<THREE.Geometry>this.line.geometry).verticesNeedUpdate = true;
+    vertices.needsUpdate = true;
   }
 
   onActorSelected(isSelected: boolean) {

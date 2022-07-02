@@ -2,8 +2,8 @@ const THREE = SupEngine.THREE;
 import { ShaderAssetPub } from "../data/ShaderAsset";
 
 export function createShaderMaterial(
-  asset: ShaderAssetPub, 
-  textures: { [name: string]: THREE.Texture }, 
+  asset: ShaderAssetPub,
+  textures: { [name: string]: THREE.Texture },
   geometry: THREE.BufferGeometry,
   options?: { useDraft?: boolean, defaultUniforms?: { [name: string]: THREE.IUniform } }
 ) {

@@ -235,12 +235,12 @@
 
 		THREE.TransformGizmo.call( this );
 
-		var arrowGeometry = new THREE.Geometry();
-		var mesh = new THREE.Mesh( new THREE.CylinderGeometry( 0, 0.05, 0.2, 12, 1, false ) );
+		var arrowGeometry = new THREE.CylinderGeometry( 0, 0.05, 0.2, 12, 1, false );
+		var mesh = new THREE.Mesh( arrowGeometry );
 		mesh.position.y = 0.5;
 		mesh.updateMatrix();
 
-		arrowGeometry.merge( mesh.geometry, mesh.matrix );
+		arrowGeometry.applyMatrix4( mesh.matrix );
 
 		var lineXGeometry = new THREE.BufferGeometry();
 		lineXGeometry.setAttribute( 'position', new THREE.Float32BufferAttribute( [ 0, 0, 0,  1, 0, 0 ], 3 ) );
@@ -502,7 +502,7 @@
 			],
 
 			XYZE: [
-				[ new THREE.Mesh( new THREE.Geometry() ) ]// TODO
+				[ new THREE.Mesh( new THREE.BufferGeometry() ) ]// TODO
 			]
 
 		};
@@ -590,12 +590,12 @@
 
 		THREE.TransformGizmo.call( this );
 
-		var arrowGeometry = new THREE.Geometry();
-		var mesh = new THREE.Mesh( new THREE.BoxGeometry( 0.125, 0.125, 0.125 ) );
+		var arrowGeometry = new THREE.BoxGeometry( 0.125, 0.125, 0.125 );
+		var mesh = new THREE.Mesh( arrowGeometry );
 		mesh.position.y = 0.5;
 		mesh.updateMatrix();
 
-		arrowGeometry.merge( mesh.geometry, mesh.matrix );
+		arrowGeometry.applyMatrix4( mesh.matrix );
 
 		var lineXGeometry = new THREE.BufferGeometry();
 		lineXGeometry.setAttribute( 'position', new THREE.Float32BufferAttribute( [ 0, 0, 0,  1, 0, 0 ], 3 ) );

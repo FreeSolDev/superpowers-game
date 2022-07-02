@@ -8,8 +8,9 @@ export default class SelectionBox extends SupEngine.ActorComponent {
   constructor(actor: SupEngine.Actor) {
     super(actor, "SelectionBox");
 
-    let globalGeometry = new THREE.Geometry();
-    for (let i = 0; i < 24; i++) globalGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
+    let globalGeometry = new THREE.BufferGeometry();
+    globalGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(24 * 3), 3));
+
     this.line = new THREE.LineSegments(globalGeometry, new THREE.LineBasicMaterial({ color: 0x00ffff, opacity: 1, depthTest: false, depthWrite: false, transparent: true }));
     this.actor.threeObject.add(this.line);
     this.line.updateMatrixWorld(false);
@@ -45,22 +46,12 @@ export default class SelectionBox extends SupEngine.ActorComponent {
       this.targets[i].traverse((node) => {
         if (node.userData.dontShowBound) return;
 
-        const geometry: THREE.Geometry|THREE.BufferGeometry = (<any>node).geometry;
+        const geometry: THREE.BufferGeometry = (<any>node).geometry;
 
         if (geometry != null) {
           node.updateMatrixWorld(false);
 
-          if (geometry instanceof THREE.Geometry) {
-            const vertices = geometry.vertices;
-
-            for (let i = 0, il = vertices.length; i < il; i++) {
-              vec.copy(vertices[i]).applyMatrix4(node.matrixWorld);
-              globalBox.expandByPoint(vec);
-              vec.applyMatrix4(inverseTargetMatrixWorld);
-              localBox.expandByPoint(vec);
-            }
-
-          } else if (geometry instanceof THREE.BufferGeometry && (<any>geometry.attributes)["position"] != null) {
+          if ((<any>geometry.attributes)["position"] != null) {
             const positions: Float32Array = (<any>geometry.attributes)["position"].array;
             const len = Math.min(positions.length, geometry.drawRange.count * 2);
 
@@ -72,18 +63,23 @@ export default class SelectionBox extends SupEngine.ActorComponent {
               localBox.expandByPoint(vec);
             }
           }
+        } else {
+          vec.set(0, 0, 0);
+          localBox.expandByPoint(vec);
+          vec.applyMatrix4(node.matrixWorld);
+          globalBox.expandByPoint(vec);
         }
       });
 
       if (this.localLines.length <= i) {
-        let localGeometry = new THREE.Geometry();
-        for (let i = 0; i < 24; i++) localGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
+        let localGeometry = new THREE.BufferGeometry();
+        localGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(24 * 3), 3));
         this.updateGeometry(localGeometry, localBox);
         let line = new THREE.LineSegments(localGeometry, new THREE.LineBasicMaterial({ color: 0xff0000, opacity: 0.75, depthTest: false, depthWrite: false, transparent: true }));
         this.localLines.push(line);
         this.actor.threeObject.add(line);
       } else {
-        this.updateGeometry(this.localLines[i].geometry as THREE.Geometry, localBox);
+        this.updateGeometry(this.localLines[i].geometry, localBox);
         this.localLines[i].visible = true;
       }
 
@@ -97,44 +93,46 @@ export default class SelectionBox extends SupEngine.ActorComponent {
       this.localLines[i].updateMatrixWorld(false);
     }
 
-    this.updateGeometry(this.line.geometry as THREE.Geometry, globalBox);
+    this.updateGeometry(this.line.geometry, globalBox);
   }
 
-  updateGeometry(geometry: THREE.Geometry, box: THREE.Box3) {
+  updateGeometry(geometry: THREE.BufferGeometry, box: THREE.Box3) {
     const min = box.min;
     const max = box.max;
 
+    const pos = geometry.getAttribute("position");
+
     // Front
-    geometry.vertices[0].set(max.x, min.y, min.z);
-    geometry.vertices[1].set(min.x, min.y, min.z);
-    geometry.vertices[2].set(min.x, min.y, min.z);
-    geometry.vertices[3].set(min.x, max.y, min.z);
-    geometry.vertices[4].set(min.x, max.y, min.z);
-    geometry.vertices[5].set(max.x, max.y, min.z);
-    geometry.vertices[6].set(max.x, max.y, min.z);
-    geometry.vertices[7].set(max.x, min.y, min.z);
+    pos.setXYZ(0 , max.x, min.y, min.z);
+    pos.setXYZ(1 , min.x, min.y, min.z);
+    pos.setXYZ(2 , min.x, min.y, min.z);
+    pos.setXYZ(3 , min.x, max.y, min.z);
+    pos.setXYZ(4 , min.x, max.y, min.z);
+    pos.setXYZ(5 , max.x, max.y, min.z);
+    pos.setXYZ(6 , max.x, max.y, min.z);
+    pos.setXYZ(7 , max.x, min.y, min.z);
 
     // Back
-    geometry.vertices[8].set( min.x, max.y, max.z);
-    geometry.vertices[9].set( max.x, max.y, max.z);
-    geometry.vertices[10].set(max.x, max.y, max.z);
-    geometry.vertices[11].set(max.x, min.y, max.z);
-    geometry.vertices[12].set(max.x, min.y, max.z);
-    geometry.vertices[13].set(min.x, min.y, max.z);
-    geometry.vertices[14].set(min.x, min.y, max.z);
-    geometry.vertices[15].set(min.x, max.y, max.z);
+    pos.setXYZ(8 , min.x, max.y, max.z);
+    pos.setXYZ(9 , max.x, max.y, max.z);
+    pos.setXYZ(10, max.x, max.y, max.z);
+    pos.setXYZ(11, max.x, min.y, max.z);
+    pos.setXYZ(12, max.x, min.y, max.z);
+    pos.setXYZ(13, min.x, min.y, max.z);
+    pos.setXYZ(14, min.x, min.y, max.z);
+    pos.setXYZ(15, min.x, max.y, max.z);
 
     // Lines
-    geometry.vertices[16].set(max.x, min.y, min.z);
-    geometry.vertices[17].set(max.x, min.y, max.z);
-    geometry.vertices[18].set(max.x, max.y, min.z);
-    geometry.vertices[19].set(max.x, max.y, max.z);
-    geometry.vertices[20].set(min.x, max.y, min.z);
-    geometry.vertices[21].set(min.x, max.y, max.z);
-    geometry.vertices[22].set(min.x, min.y, min.z);
-    geometry.vertices[23].set(min.x, min.y, max.z);
+    pos.setXYZ(16, max.x, min.y, min.z);
+    pos.setXYZ(17, max.x, min.y, max.z);
+    pos.setXYZ(18, max.x, max.y, min.z);
+    pos.setXYZ(19, max.x, max.y, max.z);
+    pos.setXYZ(20, min.x, max.y, min.z);
+    pos.setXYZ(21, min.x, max.y, max.z);
+    pos.setXYZ(22, min.x, min.y, min.z);
+    pos.setXYZ(23, min.x, min.y, max.z);
 
-    geometry.verticesNeedUpdate = true;
+    pos.needsUpdate = true;
     geometry.computeBoundingBox();
     geometry.computeBoundingSphere();
   }

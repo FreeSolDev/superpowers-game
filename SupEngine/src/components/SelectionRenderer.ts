@@ -24,15 +24,14 @@ export default class SelectionRenderer extends ActorComponent {
   }
 
   _createMesh() {
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints([
       new THREE.Vector3(-this.width / 2, -this.height / 2, 0),
       new THREE.Vector3( this.width / 2, -this.height / 2, 0),
       new THREE.Vector3( this.width / 2,  this.height / 2, 0),
       new THREE.Vector3(-this.width / 2,  this.height / 2, 0),
       new THREE.Vector3(-this.width / 2, -this.height / 2, 0)
-    );
-    geometry.verticesNeedUpdate = true;
+    ]);
     const material = new THREE.LineBasicMaterial({ color: 0x000000, opacity: 1, depthTest: false, depthWrite: false, transparent: true });
 
     this.mesh = new THREE.Line(geometry, material);

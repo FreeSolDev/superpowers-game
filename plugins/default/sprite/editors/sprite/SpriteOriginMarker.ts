@@ -7,14 +7,14 @@ export default class SpriteOriginMarker extends SupEngine.ActorComponent {
   constructor(actor: SupEngine.Actor) {
     super(actor, "SpriteOriginMarker");
 
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints([
       new THREE.Vector3(-0.2, 0, 0),
       new THREE.Vector3( 0.2, 0, 0),
 
       new THREE.Vector3(0, -0.2, 0),
       new THREE.Vector3(0,  0.2, 0)
-    );
+    ]);
 
     this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({ color: 0x333333, opacity: 0.25, transparent: true }));
     this.actor.threeObject.add(this.line);

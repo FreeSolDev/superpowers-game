@@ -146,7 +146,7 @@ const verticesByShapeType: { [type: string]: number } = {
 };
 
 export function addNode(node: Node) {
-  const geometry = new THREE.Geometry();
+  const geometry = new THREE.BufferGeometry();
   const line = new THREE.LineSegments(geometry, lineMaterial);
   textureArea.shapeLineMeshesByNodeId[node.id] = line;
 
@@ -159,13 +159,9 @@ export function updateNode(node: Node) {
   const line = textureArea.shapeLineMeshesByNodeId[node.id];
 
   const verticesCount = verticesByShapeType[node.shape.type];
-  const vertices = (line.geometry as THREE.Geometry).vertices;
 
-  if (vertices.length < verticesCount) {
-    for (let i = vertices.length; i < verticesCount; i++) vertices.push(new THREE.Vector3(0, 0, 0));
-  } else if (vertices.length > verticesCount) {
-    vertices.length = verticesCount;
-  }
+  let vertices: THREE.Vector3[] = [];
+  for (let i = 0; i < verticesCount; i++) vertices.push(new THREE.Vector3(0, 0, 0));
 
   // let origin = { x: node.shape.textureOffset.x, y: -node.shape.textureOffset.y };
   // TEMPORARY
@@ -220,7 +216,7 @@ export function updateNode(node: Node) {
       break;
   }
 
-  (line.geometry as THREE.Geometry).verticesNeedUpdate = true;
+  line.geometry.setFromPoints(vertices);
 }
 
 export function updateRemovedNode() {

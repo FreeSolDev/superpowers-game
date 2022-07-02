@@ -7,8 +7,8 @@ export default class TransformMarker extends SupEngine.ActorComponent {
   constructor(actor: SupEngine.Actor) {
     super(actor, "TransformMarker");
 
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints([
       new THREE.Vector3( -0.25, 0, 0 ),
       new THREE.Vector3(  0.25, 0, 0 ),
 
@@ -17,7 +17,7 @@ export default class TransformMarker extends SupEngine.ActorComponent {
 
       new THREE.Vector3( 0, 0, -0.25 ),
       new THREE.Vector3( 0, 0,  0.25 )
-    );
+    ]);
 
     this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.25, transparent: true } ));
     this.actor.threeObject.add(this.line);

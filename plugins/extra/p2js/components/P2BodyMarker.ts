@@ -39,14 +39,14 @@ export default class P2BodyMarker extends SupEngine.ActorComponent {
   setBox(width: number, height: number) {
     if (this.mesh != null) this._clearRenderer();
 
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
+    const geometry = new THREE.BufferGeometry();
+    geometry.setFromPoints([
       new THREE.Vector3(-width / 2, -height / 2, 0),
       new THREE.Vector3( width / 2, -height / 2, 0),
       new THREE.Vector3( width / 2,  height / 2, 0),
       new THREE.Vector3(-width / 2,  height / 2, 0),
       new THREE.Vector3(-width / 2, -height / 2, 0)
-    );
+    ]);
     const material = new THREE.LineBasicMaterial({ color: 0xf459e4 });
     this.mesh = new THREE.Line(geometry, material);
     this.markerActor.threeObject.add(this.mesh);

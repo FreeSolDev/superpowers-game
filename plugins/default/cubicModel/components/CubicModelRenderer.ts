@@ -107,7 +107,7 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     return rendererNode;
   }
 
-  updateBoxNodeUv(geometry: THREE.Geometry, node: Node) {
+  updateBoxNodeUv(geometry: THREE.BufferGeometry, node: Node) {
     const width = this.asset.textureWidth;
     const height = this.asset.textureHeight;
     const size = node.shape.settings.size;
@@ -118,18 +118,19 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     const topLeft =     new THREE.Vector2();
     const topRight =    new THREE.Vector2();
 
+    const uvs = geometry.getAttribute("uv");
+    console.log(uvs);
+
     // Left Face
     offset = node.shape.textureLayout["left"].offset;
     bottomLeft.set( (offset.x)          / width, (height - offset.y - size.y) / height);
     bottomRight.set((offset.x + size.z) / width, (height - offset.y - size.y) / height);
     topLeft.set(    (offset.x)          / width, (height - offset.y)          / height);
     topRight.set(   (offset.x + size.z) / width, (height - offset.y)          / height);
-    geometry.faceVertexUvs[0][2][0].copy(topLeft);
-    geometry.faceVertexUvs[0][2][1].copy(bottomLeft);
-    geometry.faceVertexUvs[0][2][2].copy(topRight);
-    geometry.faceVertexUvs[0][3][0].copy(bottomLeft);
-    geometry.faceVertexUvs[0][3][1].copy(bottomRight);
-    geometry.faceVertexUvs[0][3][2].copy(topRight);
+    uvs.setXY(4, topLeft.x, topLeft.y);
+    uvs.setXY(5, topRight.x, topRight.y);
+    uvs.setXY(6, bottomLeft.x, bottomLeft.y);
+    uvs.setXY(7, bottomRight.x, bottomRight.y);
 
     // Front Face
     offset = node.shape.textureLayout["front"].offset;
@@ -137,12 +138,10 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     bottomRight.set((offset.x + size.x) / width, (height - offset.y - size.y) / height);
     topLeft.set(    (offset.x)          / width, (height - offset.y)          / height);
     topRight.set(   (offset.x + size.x) / width, (height - offset.y)          / height);
-    geometry.faceVertexUvs[0][8][0].copy(topLeft);
-    geometry.faceVertexUvs[0][8][1].copy(bottomLeft);
-    geometry.faceVertexUvs[0][8][2].copy(topRight);
-    geometry.faceVertexUvs[0][9][0].copy(bottomLeft);
-    geometry.faceVertexUvs[0][9][1].copy(bottomRight);
-    geometry.faceVertexUvs[0][9][2].copy(topRight);
+    uvs.setXY(16, topLeft.x, topLeft.y);
+    uvs.setXY(17, topRight.x, topRight.y);
+    uvs.setXY(18, bottomLeft.x, bottomLeft.y);
+    uvs.setXY(19, bottomRight.x, bottomRight.y);
 
     // Right Face
     offset = node.shape.textureLayout["right"].offset;
@@ -150,12 +149,10 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     bottomRight.set((offset.x + size.z) / width, (height - offset.y - size.y) / height);
     topLeft.set(    (offset.x)          / width, (height - offset.y)          / height);
     topRight.set(   (offset.x + size.z) / width, (height - offset.y)          / height);
-    geometry.faceVertexUvs[0][0][0].copy(topLeft);
-    geometry.faceVertexUvs[0][0][1].copy(bottomLeft);
-    geometry.faceVertexUvs[0][0][2].copy(topRight);
-    geometry.faceVertexUvs[0][1][0].copy(bottomLeft);
-    geometry.faceVertexUvs[0][1][1].copy(bottomRight);
-    geometry.faceVertexUvs[0][1][2].copy(topRight);
+    uvs.setXY(0, topLeft.x, topLeft.y);
+    uvs.setXY(1, topRight.x, topRight.y);
+    uvs.setXY(2, bottomLeft.x, bottomLeft.y);
+    uvs.setXY(3, bottomRight.x, bottomRight.y);
 
     // Back Face
     offset = node.shape.textureLayout["back"].offset;
@@ -163,12 +160,10 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     bottomRight.set((offset.x + size.x) / width, (height - offset.y - size.y) / height);
     topLeft.set(    (offset.x)          / width, (height - offset.y)          / height);
     topRight.set(   (offset.x + size.x) / width, (height - offset.y)          / height);
-    geometry.faceVertexUvs[0][10][0].copy(topLeft);
-    geometry.faceVertexUvs[0][10][1].copy(bottomLeft);
-    geometry.faceVertexUvs[0][10][2].copy(topRight);
-    geometry.faceVertexUvs[0][11][0].copy(bottomLeft);
-    geometry.faceVertexUvs[0][11][1].copy(bottomRight);
-    geometry.faceVertexUvs[0][11][2].copy(topRight);
+    uvs.setXY(20, topLeft.x, topLeft.y);
+    uvs.setXY(21, topRight.x, topRight.y);
+    uvs.setXY(22, bottomLeft.x, bottomLeft.y);
+    uvs.setXY(23, bottomRight.x, bottomRight.y);
 
     // Top Face
     offset = node.shape.textureLayout["top"].offset;
@@ -176,12 +171,10 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     bottomRight.set((offset.x + size.x) / width, (height - offset.y - size.z) / height);
     topLeft.set(    (offset.x)          / width, (height - offset.y)          / height);
     topRight.set(   (offset.x + size.x) / width, (height - offset.y)          / height);
-    geometry.faceVertexUvs[0][4][0].copy(topLeft);
-    geometry.faceVertexUvs[0][4][1].copy(bottomLeft);
-    geometry.faceVertexUvs[0][4][2].copy(topRight);
-    geometry.faceVertexUvs[0][5][0].copy(bottomLeft);
-    geometry.faceVertexUvs[0][5][1].copy(bottomRight);
-    geometry.faceVertexUvs[0][5][2].copy(topRight);
+    uvs.setXY(8, topLeft.x, topLeft.y);
+    uvs.setXY(9, topRight.x, topRight.y);
+    uvs.setXY(10, bottomLeft.x, bottomLeft.y);
+    uvs.setXY(11, bottomRight.x, bottomRight.y);
 
     // Bottom Face
     offset = node.shape.textureLayout["bottom"].offset;
@@ -189,13 +182,12 @@ export default class CubicModelRenderer extends SupEngine.ActorComponent {
     bottomRight.set((offset.x + size.x) / width, (height - offset.y - size.z) / height);
     topLeft.set(    (offset.x)          / width, (height - offset.y)          / height);
     topRight.set(   (offset.x + size.x) / width, (height - offset.y)          / height);
-    geometry.faceVertexUvs[0][6][0].copy(topLeft);
-    geometry.faceVertexUvs[0][6][1].copy(bottomLeft);
-    geometry.faceVertexUvs[0][6][2].copy(topRight);
-    geometry.faceVertexUvs[0][7][0].copy(bottomLeft);
-    geometry.faceVertexUvs[0][7][1].copy(bottomRight);
-    geometry.faceVertexUvs[0][7][2].copy(topRight);
-    geometry.uvsNeedUpdate = true;
+    uvs.setXY(12, topLeft.x, topLeft.y);
+    uvs.setXY(13, topRight.x, topRight.y);
+    uvs.setXY(14, bottomLeft.x, bottomLeft.y);
+    uvs.setXY(15, bottomRight.x, bottomRight.y);
+
+    uvs.needsUpdate = true;
   }
 
   setIsLayerActive(active: boolean) { if (this.threeRoot != null) this.threeRoot.visible = active; }
