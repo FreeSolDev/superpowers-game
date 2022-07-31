@@ -1,8 +1,8 @@
 const THREE = SupEngine.THREE;
-import "./TransformControls";
+import TransformControls from "./TransformControls";
 
 export default class TransformHandle extends SupEngine.ActorComponent {
-  control: any; // : THREE.TransformControls;
+  control: TransformControls;
 
   target: THREE.Object3D;
   mode = "translate";
@@ -12,28 +12,27 @@ export default class TransformHandle extends SupEngine.ActorComponent {
   constructor(actor: SupEngine.Actor, threeCamera: THREE.Camera) {
     super(actor, "TransformHandle");
 
-    this.control = new (<any>THREE).TransformControls(threeCamera, actor.gameInstance.threeRenderer);
+    this.control = new TransformControls(threeCamera, actor.gameInstance.threeRenderer);
     this.actor.gameInstance.threeScene.add(this.control);
   }
 
   setIsLayerActive(active: boolean) { this.control.visible = active && this.controlVisible; }
 
   update() {
-    this.control.update();
     this.control.updateMatrixWorld(true);
   }
 
   setMode(mode: string) {
     this.mode = mode;
     if (this.target != null) {
-      this.control.setMode(mode);
-      this.control.setSpace(this.mode === "scale" ? "local" : this.space);
+      this.control.mode = mode;
+      this.control.space = this.mode === "scale" ? "local" : this.space;
     }
   }
 
   setSpace(space: string) {
     this.space = space;
-    if (this.target != null && this.mode !== "scale") this.control.setSpace(space);
+    if (this.target != null && this.mode !== "scale") this.control.space = space;
   }
 
   setTarget(target: THREE.Object3D) {
@@ -42,8 +41,8 @@ export default class TransformHandle extends SupEngine.ActorComponent {
     if (this.target != null) {
       this.controlVisible = true;
       this.control.attach(this.actor.threeObject);
-      this.control.setSpace(this.mode === "scale" ? "local" : this.space);
-      this.control.setMode(this.mode);
+      this.control.space = this.mode === "scale" ? "local" : this.space;
+      this.control.mode = this.mode;
       this.move();
     } else {
       this.controlVisible = false;
@@ -57,7 +56,6 @@ export default class TransformHandle extends SupEngine.ActorComponent {
     this.actor.threeObject.scale.copy(this.target.scale);
     this.actor.threeObject.updateMatrixWorld(false);
 
-    this.control.update();
     this.control.updateMatrixWorld(true);
   }
 

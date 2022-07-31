@@ -3,6 +3,7 @@ import TransformHandle from "./TransformHandle";
 import TransformMarker from "./TransformMarker";
 import GridHelper from "./GridHelper";
 import SkyHelper from "./SkyHelper";
+import TransformControls from "./TransformControls";
 
 SupEngine.registerEditorComponentClass("SelectionBox", SelectionBox);
 SupEngine.registerEditorComponentClass("TransformHandle", TransformHandle);

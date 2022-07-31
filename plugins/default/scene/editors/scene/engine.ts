@@ -79,7 +79,7 @@ export function start() {
   engine.transformHandleComponent.control.addEventListener("mouseDown", () => { draggingControls = true; });
   engine.transformHandleComponent.control.addEventListener("objectChange", onTransformChange);
 
-  engine.gridHelperComponent = new SupEngine.editorComponentClasses["GridHelper"](gridActor, ui.gridSize, ui.gridStep);
+  engine.gridHelperComponent = new SupEngine.editorComponentClasses["GridHelper"](gridActor, engine.cameraComponent.unifiedThreeCamera, ui.gridStep);
   engine.gridHelperComponent.setVisible(false);
 
   hasStarted = true;
@@ -111,7 +111,7 @@ export function updateCameraMode() {
       gridActor.setLocalEulerAngles(new THREE.Euler(0, 0, 0));
     gridActor.layer = 0;
   } else {
-    gridActor.setLocalPosition(new THREE.Vector3(0, 0, -500));
+    gridActor.setLocalPosition(new THREE.Vector3(0, 0, 0));
     gridActor.setLocalEulerAngles(new THREE.Euler(Math.PI / 2, 0, 0));
     gridActor.layer = -1;
   }
@@ -149,16 +149,8 @@ function update() {
   const snap = engine.gameInstance.input.keyboardButtons[(<any>window).KeyEvent.DOM_VK_CONTROL].isDown;
 
   if (snap !== (engine.transformHandleComponent.control.translationSnap != null)) {
-    engine.transformHandleComponent.control.setTranslationSnap(snap ? ui.gridStep : null);
-    engine.transformHandleComponent.control.setRotationSnap(snap ? Math.PI / 36 : null);
-  }
-
-  if (ui.cameraMode === "2D") {
-    engine.cameraActor.getLocalPosition(gridPosition);
-    gridPosition.x -= gridPosition.x % ui.gridStep;
-    gridPosition.y -= gridPosition.y % ui.gridStep;
-    gridPosition.z = 0;
-    gridActor.setLocalPosition(gridPosition);
+    engine.transformHandleComponent.control.translationSnap = snap ? ui.gridStep : null;
+    engine.transformHandleComponent.control.rotationSnap = snap ? Math.PI / 36 : null;
   }
 }
 

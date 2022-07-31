@@ -43,7 +43,7 @@ engine.gameInstance.threeScene.add(light);*/
 
 export function start() {
   // We need to delay this because it relies on ui.grid* being setup
-  engine.gridHelperComponent = new SupEngine.editorComponentClasses["GridHelper"](gridActor, ui.gridSize, ui.gridStep);
+  engine.gridHelperComponent = new SupEngine.editorComponentClasses["GridHelper"](gridActor, cameraComponent.unifiedThreeCamera, ui.gridStep);
   engine.gridHelperComponent.setVisible(false);
 }
 
@@ -119,8 +119,8 @@ function update() {
   const snap = engine.gameInstance.input.keyboardButtons[(<any>window).KeyEvent.DOM_VK_CONTROL].isDown;
 
   if (snap !== (engine.transformHandleComponent.control.translationSnap != null)) {
-    engine.transformHandleComponent.control.setTranslationSnap(snap ? ui.gridStep : null);
-    engine.transformHandleComponent.control.setRotationSnap(snap ? Math.PI / 36 : null);
+    engine.transformHandleComponent.control.translationSnap = snap ? ui.gridStep : null;
+    engine.transformHandleComponent.control.rotationSnap = snap ? Math.PI / 36 : null;
   }
 }
 

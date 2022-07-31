@@ -21,7 +21,8 @@ interface TransformMarker extends SupEngine.ActorComponent {
 }
 
 interface GridHelper extends SupEngine.ActorComponent {
-  setup(size: number, step: number): void;
+  step: number;
+
   setVisible(visible: boolean): void;
 }
 

@@ -17,7 +17,6 @@ const ui: {
 
   translateMode: string;
 
-  gridSize: number;
   gridStep: number;
 
   pixelsPerUnitInput?: HTMLInputElement;
@@ -88,7 +87,6 @@ new ResizeHandle(document.querySelector(".sidebar") as HTMLElement, "right");
 new ResizeHandle(document.querySelector(".nodes-tree-view") as HTMLElement, "top");
 
 // Grid
-ui.gridSize = 20;
 ui.gridStep = 1;
 document.getElementById("grid-step").addEventListener("input", onGridStepInput);
 document.getElementById("grid-visible").addEventListener("change", onGridVisibleChange);
@@ -100,7 +98,7 @@ function onGridStepInput(event: UIEvent) {
   if (isNaN(value) || value <= 0) { (<any>target).reportValidity(); return; }
 
   ui.gridStep = value;
-  engine.gridHelperComponent.setup(ui.gridSize, ui.gridStep);
+  engine.gridHelperComponent.step = ui.gridStep;
 }
 
 function onGridVisibleChange(event: UIEvent) {

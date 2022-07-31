@@ -52,7 +52,6 @@ const ui: {
   camera2DZ: HTMLInputElement;
 
   gridCheckbox: HTMLInputElement;
-  gridSize: number;
   gridStep: number;
 
   dropTimeout: NodeJS.Timer;
@@ -296,7 +295,7 @@ export function start() {
 
   ui.gridStep = sceneUserSettings.pub.defaultGridSize;
   (document.getElementById("grid-step") as HTMLInputElement).value = ui.gridStep.toString();
-  engine.gridHelperComponent.setup(ui.gridSize, ui.gridStep);
+  engine.gridHelperComponent.step = ui.gridStep;
 
   sceneUserSettings.emitter.on("controlSchemes", () => {
     engine.cameraControls.changeMode(sceneUserSettings.pub.controlSchemes);
@@ -327,7 +326,6 @@ function onTransformModeClick(event: any) {
 // Grid
 ui.gridCheckbox = document.getElementById("grid-visible") as HTMLInputElement;
 ui.gridCheckbox.addEventListener("change", onGridVisibleChange);
-ui.gridSize = 80;
 ui.gridStep = 1;
 document.getElementById("grid-step").addEventListener("input", onGridStepInput);
 
@@ -338,7 +336,7 @@ function onGridStepInput(event: UIEvent) {
   if (isNaN(value) || value <= 0) { (target as any).reportValidity(); return; }
 
   ui.gridStep = value;
-  engine.gridHelperComponent.setup(ui.gridSize, ui.gridStep);
+  engine.gridHelperComponent.step = ui.gridStep;
 }
 
 function onGridVisibleChange(event: UIEvent) {
