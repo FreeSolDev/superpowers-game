@@ -1,4 +1,3 @@
-/// <reference path="./node_modules/three/src/Three.d.ts" />
 declare const __tmpTHREE: typeof THREE;
 
 declare namespace SupEngine {

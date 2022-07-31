@@ -34,7 +34,7 @@ export default class Camera extends ActorComponent {
     super(actor, "Camera");
 
     this.unifiedThreeCamera = <any>{
-      type: "perspective",
+      type: "PerspectiveCamera",
       matrixWorld: null,
       projectionMatrix: null,
       updateMatrixWorld: () => { /* Nothing here */ }
@@ -114,7 +114,7 @@ void main() {\n\
     }
     else this.threeCamera = new THREE.PerspectiveCamera(this.fov, this.cachedRatio, this.nearClippingPlane, this.farClippingPlane);
 
-    this.unifiedThreeCamera.type = isOrthographic ? "orthographic" : "perspective";
+    this.unifiedThreeCamera.type = isOrthographic ? "OrthographicCamera" : "PerspectiveCamera";
     this.unifiedThreeCamera.matrixWorld = this.threeCamera.matrixWorld;
     this.unifiedThreeCamera.projectionMatrix = this.threeCamera.projectionMatrix;
     this.unifiedThreeCamera.projectionMatrixInverse = this.threeCamera.projectionMatrixInverse;
