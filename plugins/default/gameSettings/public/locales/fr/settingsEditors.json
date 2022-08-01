@@ -7,6 +7,7 @@
     "width": "Largeur",
     "height": "Hauteur",
     "layers": "Calques",
-    "newLayer": "Nouveau calque..."
+    "newLayer": "Nouveau calque...",
+    "controlSchemes": "Mode de controle 3D"
   }
 }

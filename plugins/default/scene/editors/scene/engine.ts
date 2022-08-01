@@ -3,6 +3,8 @@ import ui, { setupSelectedNode } from "./ui";
 import { renderOverlay, createAxes } from "./axesGizmo";
 import { SceneActorData } from "../../components/SceneUpdater";
 
+import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
+
 const THREE = SupEngine.THREE;
 
 const engine: {
@@ -34,6 +36,10 @@ engine.cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraA
 engine.cameraComponent.layers = [ 0, -1 ];
 engine.cameraComponent.setFarClippingPlane(510);
 engine.cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, engine.cameraComponent);
+engine.cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+controlUserSettings.emitter.on("controlSchemes", () => {
+  engine.cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+});
 
 engine.selectedActorsData = [];
 
@@ -100,6 +106,7 @@ export function updateCameraMode() {
       zoomMax: 1000,
     });
   }
+  engine.cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
 
   engine.transformHandleComponent.control.camera = engine.cameraComponent.threeCamera;
 

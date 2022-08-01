@@ -383,7 +383,8 @@ export function importModel(files: File[], callback: ImportCallback) {
       if (mesh == null) {
         if (rootNode != null && rootNode.mesh != null) {
           mesh = rootNode.mesh;
-          skin = gltf.skins[rootNode.skin];
+          if (rootNode.skin != null)
+            skin = gltf.skins[rootNode.skin];
         }
       }
       if (rootNode.children == null) return;
@@ -440,8 +441,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
         const indexBufferView: GLTF2BufferView = gltf.bufferViews[indexAccessor.bufferView];
         const start =
-          indexBufferView.byteOffset != null ? indexBufferView.byteOffset : 0 +
-          indexAccessor.byteOffset != null ? indexAccessor.byteOffset : 0;
+          (indexBufferView.byteOffset != null ? indexBufferView.byteOffset : 0) +
+          (indexAccessor.byteOffset != null ? indexAccessor.byteOffset : 0);
         attributes["index"] = buffers[indexBufferView.buffer].slice(start, start + indexAccessor.count * 2);
       }
 
@@ -454,8 +455,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
         const positionBufferView: GLTF2BufferView = gltf.bufferViews[positionAccessor.bufferView];
         const start =
-          positionBufferView.byteOffset != null ? positionBufferView.byteOffset : 0 +
-          positionAccessor.byteOffset != null ? positionAccessor.byteOffset : 0;
+          (positionBufferView.byteOffset != null ? positionBufferView.byteOffset : 0) +
+          (positionAccessor.byteOffset != null ? positionAccessor.byteOffset : 0);
         attributes["position"] = buffers[positionBufferView.buffer].slice(start, start + positionAccessor.count * 4 * 3);
       }
 
@@ -469,8 +470,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
         const normalBufferView: GLTF2BufferView = gltf.bufferViews[normalAccessor.bufferView];
         const start =
-          normalBufferView.byteOffset != null ? normalBufferView.byteOffset : 0 +
-          normalAccessor.byteOffset != null ? normalAccessor.byteOffset : 0;
+          (normalBufferView.byteOffset != null ? normalBufferView.byteOffset : 0) +
+          (normalAccessor.byteOffset != null ? normalAccessor.byteOffset : 0);
         attributes["normal"] = buffers[normalBufferView.buffer].slice(start, start + normalAccessor.count * 4 * 3);
       }
 
@@ -484,8 +485,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
         const uvBufferView: GLTF2BufferView = gltf.bufferViews[uvAccessor.bufferView];
         const start =
-          uvBufferView.byteOffset != null ? uvBufferView.byteOffset : 0 +
-          uvAccessor.byteOffset != null ? uvAccessor.byteOffset : 0;
+          (uvBufferView.byteOffset != null ? uvBufferView.byteOffset : 0) +
+          (uvAccessor.byteOffset != null ? uvAccessor.byteOffset : 0);
         const uvArray = new Float32Array(buffers[uvBufferView.buffer], start, uvAccessor.count * 2);
 
         for (let i = 0; i < uvAccessor.count; i++) {
@@ -505,8 +506,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
         const skinIndexBufferView: GLTF2BufferView = gltf.bufferViews[skinIndexAccessor.bufferView];
         const start =
-          skinIndexBufferView.byteOffset != null ? skinIndexBufferView.byteOffset : 0 +
-          skinIndexAccessor.byteOffset != null ? skinIndexAccessor.byteOffset : 0;
+          (skinIndexBufferView.byteOffset != null ? skinIndexBufferView.byteOffset : 0) +
+          (skinIndexAccessor.byteOffset != null ? skinIndexAccessor.byteOffset : 0);
         const indexArray = new Uint16Array(buffers[skinIndexBufferView.buffer], start, skinIndexAccessor.count * 4);
         let floatIndex = [];
         for (let i = 0; i < skinIndexAccessor.count * 4; i++)
@@ -524,8 +525,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
         const skinWeightBufferView: GLTF2BufferView = gltf.bufferViews[skinWeightAccessor.bufferView];
         const start =
-          skinWeightBufferView.byteOffset != null ? skinWeightBufferView.byteOffset : 0 +
-          skinWeightAccessor.byteOffset != null ? skinWeightAccessor.byteOffset : 0;
+          (skinWeightBufferView.byteOffset != null ? skinWeightBufferView.byteOffset : 0) +
+          (skinWeightAccessor.byteOffset != null ? skinWeightAccessor.byteOffset : 0);
         attributes["skinWeight"] = buffers[skinWeightBufferView.buffer].slice(start, start + skinWeightAccessor.count * 4 * 4);
       }
 
@@ -560,8 +561,8 @@ export function importModel(files: File[], callback: ImportCallback) {
         animation = { duration: 0, keyFrames: {} };
         const gltfAnim = gltf.animations[0];
 
-        for (const gltfChannelName in gltfAnim.channels) {
-          const gltfChannel = gltfAnim.channels[gltfChannelName];
+        for (let i = 0; i < gltfAnim.channels.length; i++) {
+          const gltfChannel = gltfAnim.channels[i];
           const gltfSampler = gltfAnim.samplers[gltfChannel.sampler];
 
           const jointName = gltf.nodes[gltfChannel.target.node].name;
@@ -587,8 +588,8 @@ export function importModel(files: File[], callback: ImportCallback) {
 
           const timeBufferView: GLTF2BufferView = gltf.bufferViews[timeAccessor.bufferView];
           const startTime =
-            timeBufferView.byteOffset != null ? timeBufferView.byteOffset : 0 +
-            timeAccessor.byteOffset != null ? timeAccessor.byteOffset : 0;
+            (timeBufferView.byteOffset != null ? timeBufferView.byteOffset : 0) +
+            (timeAccessor.byteOffset != null ? timeAccessor.byteOffset : 0);
           const timeArray = new Float32Array(buffers[timeBufferView.buffer], startTime, timeAccessor.count);
 
           const outputParameterId = gltfSampler.output;
@@ -602,10 +603,11 @@ export function importModel(files: File[], callback: ImportCallback) {
 
           const outputBufferView: GLTF2BufferView = gltf.bufferViews[outputAccessor.bufferView];
           const startOutput =
-            outputBufferView.byteOffset != null ? outputBufferView.byteOffset : 0 +
-            outputAccessor.byteOffset != null ? outputAccessor.byteOffset : 0;
+            (outputBufferView.byteOffset != null ? outputBufferView.byteOffset : 0) +
+            (outputAccessor.byteOffset != null ? outputAccessor.byteOffset : 0);
           const outputArray = new Float32Array(buffers[outputBufferView.buffer], startOutput, outputAccessor.count * componentsCount);
 
+          if (gltfSampler.interpolation == null) gltfSampler.interpolation = GLTF2Interpolation.LINEAR;
           if (gltfSampler.interpolation !== GLTF2Interpolation.LINEAR)
             interpolationErrors++;
           const multCubic = (gltfSampler.interpolation === GLTF2Interpolation.CUBICSPLINE) ? 3 : 1;

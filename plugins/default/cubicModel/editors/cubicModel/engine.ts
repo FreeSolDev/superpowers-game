@@ -2,6 +2,8 @@ import { data } from "./network";
 import ui, { setupSelectedNode } from "./ui";
 import textureArea, { handleTextureArea } from "./textureArea";
 
+import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
+
 const THREE = SupEngine.THREE;
 
 const engine: {
@@ -24,7 +26,11 @@ engine.cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
 
 const cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor);
 cameraComponent.layers = [ 0, -1 ];
-new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, cameraComponent);
+let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, cameraComponent);
+cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+controlUserSettings.emitter.on("controlSchemes", () => {
+  cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+});
 
 const markerActor = new SupEngine.Actor(engine.gameInstance, "Marker", null, { layer: -1 });
 engine.transformMarkerComponent = new SupEngine.editorComponentClasses["TransformMarker"](markerActor);

@@ -1,6 +1,7 @@
 import ui from "./ui";
 import { data } from "./network";
 import { createShaderMaterial } from "../../components/Shader";
+import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
 
 const THREE = SupEngine.THREE;
 
@@ -10,7 +11,11 @@ const gameInstance = new SupEngine.GameInstance(canvasElt);
 const cameraActor = new SupEngine.Actor(gameInstance, "Camera");
 cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
 const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
-let cameraControl = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+controlUserSettings.emitter.on("controlSchemes", () => {
+  if (cameraControls) cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+});
 
 const loader = new THREE.TextureLoader();
 const leonardTexture = loader.load("leonard.png", undefined);
@@ -24,15 +29,16 @@ let previewActor: SupEngine.Actor;
 let material: THREE.ShaderMaterial;
 
 function controlPreview(type: string) {
-  if (type === "Screen" && cameraControl !== null) {
-    gameInstance.destroyComponent(cameraControl);
+  if (type === "Screen" && cameraControls !== null) {
+    gameInstance.destroyComponent(cameraControls);
     cameraComponent.setOrthographicMode(true);
     cameraComponent.setOrthographicScale(4);
     cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
     cameraActor.setLocalOrientation(new THREE.Quaternion());
-    cameraControl = null;
-  } else if (type !== "Screen" && cameraControl === null) {
-    cameraControl = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+    cameraControls = null;
+  } else if (type !== "Screen" && cameraControls === null) {
+    cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+    cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
     cameraComponent.setOrthographicMode(false);
   }
 }

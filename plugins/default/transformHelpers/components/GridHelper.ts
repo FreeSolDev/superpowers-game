@@ -50,6 +50,21 @@ export default class GridHelper extends SupEngine.ActorComponent {
 
       this.xAxis.position.x = this.camera.matrixWorld.elements[12];
       this.yAxis.position.z = -this.camera.matrixWorld.elements[13];
+      this.xAxis.position.y = this.camera.matrixWorld.elements[14] - 1;
+      this.yAxis.position.y = this.camera.matrixWorld.elements[14] - 1;
+    } else {
+      this.gridMajor.position.x = 0;
+      this.gridMajor.position.z = 0;
+      this.gridMajor.position.y = 0;
+
+      this.gridMinor.position.x = 0;
+      this.gridMinor.position.z = 0;
+      this.gridMinor.position.y = 0;
+
+      this.xAxis.position.x = 0;
+      this.yAxis.position.z = 0;
+      this.xAxis.position.y = 0;
+      this.yAxis.position.y = 0;
     }
     this.actor.threeObject.updateMatrixWorld();
 

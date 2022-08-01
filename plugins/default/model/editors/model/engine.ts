@@ -1,5 +1,7 @@
 const THREE = SupEngine.THREE;
 
+import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
+
 const engine: {
   gameInstance?: SupEngine.GameInstance;
 } = {};
@@ -11,7 +13,11 @@ engine.gameInstance = new SupEngine.GameInstance(canvasElt);
 const cameraActor = new SupEngine.Actor(engine.gameInstance, "Camera");
 cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
 const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
-new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+controlUserSettings.emitter.on("controlSchemes", () => {
+  cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+});
 
 const light = new THREE.AmbientLight(0xcfcfcf);
 engine.gameInstance.threeScene.add(light);

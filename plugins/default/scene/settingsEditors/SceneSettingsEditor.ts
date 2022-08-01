@@ -50,18 +50,6 @@ export default class SceneSettingsEditor {
       this.defaultGridSizeField.value = sceneUserSettings.pub.defaultGridSize.toString();
     });
 
-    // A little ugly, need to be global across all systems
-    const themeRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Scene.controlSchemes"));
-    const themeValues: { [value: string]: string } = { "superpowers": "Superpowers", "unity": "Unity" };
-    this.controlsField = SupClient.table.appendSelectBox(themeRow.valueCell, themeValues, sceneUserSettings.pub.controlSchemes);
-    this.controlsField.addEventListener("change", (event: any) => {
-      sceneUserSettings.edit("controlSchemes", event.target.value);
-    });
-
-    sceneUserSettings.emitter.addListener("controlSchemes", () => {
-      this.controlsField.value = sceneUserSettings.pub.theme;
-    });
-
     this.projectClient.subResource("sceneSettings", this);
   }
 

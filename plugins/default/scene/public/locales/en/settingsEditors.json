@@ -4,7 +4,6 @@
     "defaultCameraMode": "Default camera mode",
     "defaultCameraVerticalAxis": "Default camera vertical axis",
     "showGridByDefault": "Show grid by default",
-    "defaultGridSize": "Default grid size",
-    "controlSchemes": "Navigation control scheme"
+    "defaultGridSize": "Default grid size"
   }
 }

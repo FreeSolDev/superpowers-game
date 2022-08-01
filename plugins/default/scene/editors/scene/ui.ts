@@ -296,10 +296,6 @@ export function start() {
   ui.gridStep = sceneUserSettings.pub.defaultGridSize;
   (document.getElementById("grid-step") as HTMLInputElement).value = ui.gridStep.toString();
   engine.gridHelperComponent.step = ui.gridStep;
-
-  sceneUserSettings.emitter.on("controlSchemes", () => {
-    engine.cameraControls.changeMode(sceneUserSettings.pub.controlSchemes);
-  });
 }
 
 function setMode(mode: string) {
@@ -786,7 +782,6 @@ export function setCameraMode(mode: string) {
   const axis = ui.cameraMode === "3D" ? ui.cameraVerticalAxis : "Y";
   engine.cameraRoot.setLocalEulerAngles(new THREE.Euler(axis === "Y" ? 0 : Math.PI / 2, 0, 0));
   updateCameraMode();
-  engine.cameraControls.changeMode(sceneUserSettings.pub.controlSchemes);
   ui.cameraModeButton.textContent = ui.cameraMode;
 }
 

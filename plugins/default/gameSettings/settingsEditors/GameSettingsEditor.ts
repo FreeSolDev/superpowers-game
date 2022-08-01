@@ -1,4 +1,5 @@
 import GameSettingsResource from "../data/GameSettingsResource";
+import * as controlUserSettings from "../data/ControlUserSettings";
 
 export default class GameSettingsEditor {
 
@@ -12,7 +13,7 @@ export default class GameSettingsEditor {
   customLayers: string[];
   layerContainers: HTMLDivElement;
 
-  fields: { [name: string]: HTMLInputElement } = {};
+  fields: { [name: string]: HTMLInputElement | HTMLSelectElement } = {};
   sceneAssetId: string;
   sceneFieldSubscriber: SupClient.table.AssetFieldSubscriber;
 
@@ -65,6 +66,19 @@ export default class GameSettingsEditor {
       this.projectClient.editResource("gameSettings", "setProperty", "ratioDenominator", parseInt(event.target.value, 10));
     });
 
+    // A little ugly, need to be in a separate section
+    const themeRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Game.controlSchemes"));
+    const themeValues: { [value: string]: string } = { "superpowers": "Superpowers", "unity": "Unity" };
+    this.fields["controls"] = SupClient.table.appendSelectBox(themeRow.valueCell, themeValues, controlUserSettings.pub.controlSchemes);
+    this.fields["controls"].addEventListener("change", (event: any) => {
+      controlUserSettings.edit("controlSchemes", event.target.value);
+    });
+
+    controlUserSettings.emitter.addListener("controlSchemes", () => {
+      this.fields["controls"].value = controlUserSettings.pub.theme;
+    });
+
+
     this.projectClient.subResource("gameSettings", this);
   }
 
@@ -89,7 +103,7 @@ export default class GameSettingsEditor {
   _setupCustomLayers() {
     this.customLayers = this.resource.pub.customLayers.slice(0);
     for (let i = 0; i < GameSettingsResource.schema["customLayers"].maxLength; i++) {
-      const field = this.fields[`customLayer${i}`];
+      const field = this.fields[`customLayer${i}`] as HTMLInputElement;
       if (i === this.customLayers.length) {
         field.placeholder = SupClient.i18n.t("settingsEditors:Game.newLayer");
         field.value = "";

@@ -4,7 +4,6 @@
     "defaultCameraMode": "نمط الكاميرا الافتراضي",
     "defaultCameraVerticalAxis": "محور الكاميرا العلوي الافتراضي",
     "showGridByDefault": "أظهر الشبكة افتراضيا",
-    "defaultGridSize": "حجم الشبكة الافتراضي",
-    "controlSchemes": "وحدات التحكم بالكاميرا"
+    "defaultGridSize": "حجم الشبكة الافتراضي"
   }
 }
