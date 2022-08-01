@@ -4,27 +4,32 @@ import * as controlUserSettings from "../../../gameSettings/data/ControlUserSett
 
 const engine: {
   gameInstance?: SupEngine.GameInstance;
+  cameraActor?: SupEngine.Actor;
 } = {};
 export default engine;
 
 const canvasElt = <HTMLCanvasElement>document.querySelector("canvas");
 engine.gameInstance = new SupEngine.GameInstance(canvasElt);
 
-const cameraActor = new SupEngine.Actor(engine.gameInstance, "Camera");
-cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
-const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
-let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
+engine.cameraActor = new SupEngine.Actor(engine.gameInstance, "Camera");
+engine.cameraActor.setLocalPosition(new THREE.Vector3(3, 2, 3));
+engine.cameraActor.lookAt(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 1, 0));
+const cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor);
+let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, cameraComponent);
 cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
 controlUserSettings.emitter.on("controlSchemes", () => {
   cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
 });
 
+const gridActor = new SupEngine.Actor(engine.gameInstance, "Grid", null, { layer: 0 });
+new SupEngine.editorComponentClasses["GridHelper"](gridActor, cameraComponent.unifiedThreeCamera, 1.0);
+
 const light = new THREE.AmbientLight(0xcfcfcf);
 engine.gameInstance.threeScene.add(light);
 
-const spotLight = new THREE.PointLight(0xffffff, 0.2);
-cameraActor.threeObject.add(spotLight);
-spotLight.updateMatrixWorld(false);
+/*const pointLight = new THREE.PointLight(0xffffff, 0.2);
+engine.cameraActor.threeObject.add(pointLight);
+pointLight.updateMatrixWorld(false);*/
 
 let isTabActive = true;
 let animationFrame: number;

@@ -373,7 +373,7 @@ export function importModel(files: File[], callback: ImportCallback) {
     // Check if the model has its up-axis pointing in the wrong direction
     let upAxisMatrix: THREE.Matrix4 = null;
 
-    if (rootNode.name === "Y_UP_Transform")
+    if (rootNode.matrix)
       upAxisMatrix = new THREE.Matrix4().fromArray(rootNode.matrix);
 
     let mesh: number = null;

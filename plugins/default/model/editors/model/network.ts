@@ -1,3 +1,5 @@
+const THREE = SupEngine.THREE;
+
 import ui, { setupAnimation, updateSelectedAnimation, setupOpacity, setupMap } from "./ui";
 import engine from "./engine";
 
@@ -46,6 +48,12 @@ function onAssetReceived() {
 
   for (const mapName in pub.maps) if (pub.maps[mapName] != null) setupMap(mapName);
   for (const slotName in pub.mapSlots) ui.mapSlotsInput[slotName].value = pub.mapSlots[slotName] != null ? pub.mapSlots[slotName] : "";
+
+  let boundingBox = new THREE.Box3().setFromObject(data.modelUpdater.modelRenderer.threeMesh);
+  let size = boundingBox.getSize(new THREE.Vector3());
+  let maxDim = Math.max(size.x, size.y, size.z);
+  engine.cameraActor.setLocalPosition(new THREE.Vector3(maxDim, maxDim * 2 / 3, maxDim));
+  engine.cameraActor.lookAt(boundingBox.getCenter(new THREE.Vector3()), new THREE.Vector3(0, 1, 0));
 }
 
 onEditCommands["setProperty"] = (path: string, value: any) => {
