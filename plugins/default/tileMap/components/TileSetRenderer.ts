@@ -20,14 +20,14 @@ export default class TileSetRenderer extends SupEngine.ActorComponent {
 
     const gridActor = new SupEngine.Actor(this.actor.gameInstance, "Grid");
     gridActor.setLocalPosition(new THREE.Vector3(0, 0, 1));
-    this.gridRenderer = new SupEngine.editorComponentClasses["GridRenderer"](gridActor, {
+    this.gridRenderer = SupEngine.createEditorComponent("GridRenderer", gridActor, {
       width: 1, height: 1,
       direction: -1, orthographicScale: 10,
       ratio: { x: 1, y: 1 }
     });
 
     this.selectedTileActor = new SupEngine.Actor(this.actor.gameInstance, "Selection", null, { visible: false });
-    new SupEngine.editorComponentClasses["FlatColorRenderer"](this.selectedTileActor, 0x900090, 1, 1);
+    SupEngine.createEditorComponent<any>("FlatColorRenderer", this.selectedTileActor, 0x900090, 1, 1);
 
     this.setTileSet(asset);
   }

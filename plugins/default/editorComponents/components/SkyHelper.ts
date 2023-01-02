@@ -4,6 +4,22 @@ export default class SkyHelper extends SupEngine.ActorComponent {
   skyMesh: THREE.Mesh;
   visible = true;
 
+  gradTexture(offset: Array<number>, color: Array<string>): THREE.Texture {
+    let c = document.createElement("canvas");
+    const ctx = c.getContext("2d");
+    const size = 1024;
+    c.width = 16; c.height = size;
+    const gradient = ctx.createLinearGradient(0, 0, 0, size);
+    let i = color.length;
+    while (i--) { gradient.addColorStop(offset[i], color[i]); }
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 16, size);
+    let texture = new THREE.Texture(c);
+    texture.needsUpdate = true;
+    return texture;
+  }
+
+
   constructor(actor: SupEngine.Actor) {
     super(actor, "SkyHelper");
 
@@ -18,6 +34,18 @@ export default class SkyHelper extends SupEngine.ActorComponent {
       this.skyMesh.geometry.dispose();
       (this.skyMesh.material as THREE.Material).dispose();
     }
+
+    const buffgeoBackground = new THREE.IcosahedronGeometry(500, 2);
+    const matBackground = new THREE.MeshBasicMaterial( {
+        map: this.gradTexture([0.75, 0.6, 0.4, 0.25], ["#1B1D1E", "#3D4143", "#72797D", "#b0babf"]),
+        side: THREE.BackSide,
+        depthWrite: false, fog: false
+      }
+    );
+    this.skyMesh = new THREE.Mesh(buffgeoBackground, matBackground);
+    // this.actor.threeObject.add(this.skyMesh);
+    this.actor.gameInstance.threeScene.add(this.skyMesh);
+    return;
 
     const skyGeo = new THREE.SphereGeometry(500);
     const skyMat = new THREE.RawShaderMaterial({

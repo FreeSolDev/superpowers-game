@@ -28,11 +28,11 @@ function start() {
 
   const cameraActor = new SupEngine.Actor(ui.gameInstance, "Camera");
   cameraActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 1));
-  const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
+  const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
   cameraComponent.setOrthographicMode(true);
   cameraComponent.setOrthographicScale(5);
   cameraComponent.setClearColor(0xbbbbbb);
-  new SupEngine.editorComponentClasses["Camera2DControls"](cameraActor, cameraComponent, {
+  SupEngine.createEditorComponent<any>("Camera2DControls", cameraActor, cameraComponent, {
     zoomSpeed: 1.5,
     zoomMin: 1,
     zoomMax: 200

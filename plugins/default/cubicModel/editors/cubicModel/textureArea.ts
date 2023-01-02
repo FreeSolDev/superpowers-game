@@ -72,15 +72,15 @@ textureArea.gameInstance = new SupEngine.GameInstance(canvas);
 
 const cameraActor = new SupEngine.Actor(textureArea.gameInstance, "Camera");
 cameraActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 10));
-const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
+const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
 cameraComponent.setOrthographicMode(true);
 cameraComponent.setOrthographicScale(10);
 cameraComponent.setClearColor(0xbbbbbb);
-textureArea.cameraControls = new SupEngine.editorComponentClasses["Camera2DControls"](cameraActor, cameraComponent,
+textureArea.cameraControls = SupEngine.createEditorComponent("Camera2DControls", cameraActor, cameraComponent,
   { zoomSpeed: 1.5, zoomMin: 1, zoomMax: 200 });
 
 const selectionActor = new SupEngine.Actor(textureArea.gameInstance, "Selection");
-textureArea.selectionRenderer = new SupEngine.editorComponentClasses["SelectionRenderer"](selectionActor);
+textureArea.selectionRenderer = SupEngine.createEditorComponent("SelectionRenderer", selectionActor);
 
 textureArea.pasteActor = new SupEngine.Actor(textureArea.gameInstance, "Paste");
 

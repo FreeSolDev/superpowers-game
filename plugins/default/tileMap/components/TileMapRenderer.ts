@@ -5,7 +5,6 @@ import TileMap from "./TileMap";
 import TileSet from "./TileSet";
 import TileLayerGeometry from "./TileLayerGeometry";
 import TileMapRendererUpdater from "./TileMapRendererUpdater";
-import { ShaderAssetPub } from "../../shader/data/ShaderAsset";
 
 export default class TileMapRenderer extends SupEngine.ActorComponent {
   /* tslint:disable:variable-name */
@@ -18,7 +17,7 @@ export default class TileMapRenderer extends SupEngine.ActorComponent {
   castShadow = false;
   receiveShadow = false;
   materialType = "basic";
-  customShader: ShaderAssetPub;
+  shaderAsset: any;
 
   layerMeshes: THREE.Mesh[];
   layerMeshesById: { [id: string]: THREE.Mesh };
@@ -31,12 +30,12 @@ export default class TileMapRenderer extends SupEngine.ActorComponent {
     super(actor, "TileMapRenderer");
   }
 
-  setTileMap(asset: TileMap, materialType?: string, customShader?: ShaderAssetPub) {
+  setTileMap(asset: TileMap, materialType?: string, customShader?: any) {
     if (this.layerMeshes != null) this._clearLayerMeshes();
 
     this.tileMap = asset;
     if (materialType != null) this.materialType = materialType;
-    this.customShader = customShader;
+    if (customShader != null) this.shaderAsset = customShader;
     if (this.tileSet == null || this.tileSet.data.texture == null || this.tileMap == null) return;
 
     this._createLayerMeshes();
@@ -93,48 +92,37 @@ export default class TileMapRenderer extends SupEngine.ActorComponent {
     const height = this.tileMap.getHeight() * this.tileSet.data.grid.height;
     const geometry = new TileLayerGeometry(width, height, this.tileMap.getWidth(), this.tileMap.getHeight());
 
-    let shaderData: ShaderAssetPub;
-    let defaultUniforms: THREE.IUniform;
-
+    let material: THREE.ShaderMaterial;
     switch (this.materialType) {
       case "basic":
-        shaderData = {
-          formatVersion: null,
-          vertexShader: { text: THREE.ShaderLib.basic.vertexShader, draft: null, revisionId: null },
-          fragmentShader: { text: fs.readFileSync(`${__dirname}/TileMapBasicFragmentShader.glsl`, { encoding: "utf8" }), draft: null, revisionId: null },
-          uniforms: [ { id: null, name: "map", type: "t", value: "map" }],
-          attributes: [],
-          useLightUniforms: false
-        };
-
-        defaultUniforms = THREE.ShaderLib.basic.uniforms as any;
+        material = new THREE.ShaderMaterial({
+          vertexShader: THREE.ShaderLib.basic.vertexShader,
+          fragmentShader: fs.readFileSync(`${__dirname}/TileMapBasicFragmentShader.glsl`, { encoding: "utf8" }), // super dodgy hack to discard empty tiles
+          uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib.basic.uniforms),
+        });
         break;
 
       case "phong":
-        shaderData = {
-          formatVersion: null,
-          vertexShader: { text: THREE.ShaderLib.phong.vertexShader, draft: null, revisionId: null },
-          fragmentShader: { text: fs.readFileSync(`${__dirname}/TileMapPhongFragmentShader.glsl`, { encoding: "utf8" }), draft: null, revisionId: null },
-          uniforms: [ { id: null, name: "map", type: "t", value: "map" }],
-          attributes: [],
-          useLightUniforms: true
-        };
-
-        defaultUniforms = THREE.ShaderLib.phong.uniforms as any;
+        material = new THREE.ShaderMaterial({
+          vertexShader: THREE.ShaderLib.phong.vertexShader,
+          fragmentShader: fs.readFileSync(`${__dirname}/TileMapPhongFragmentShader.glsl`, { encoding: "utf8" }), // same as above
+          uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib.phong.uniforms),
+          lights: true
+        });
         break;
 
       case "shader":
-        shaderData = this.customShader;
+        material = SupEngine.componentClasses["Shader"].createShaderMaterial(
+          this.shaderAsset,
+          { map: this.tileSet.data.texture },
+          geometry
+        ) as THREE.ShaderMaterial;
         break;
     }
-
-    const material = SupEngine.componentClasses["Shader"].createShaderMaterial(
-      shaderData,
-      { map: this.tileSet.data.texture },
-      geometry,
-      { defaultUniforms }
-    ) as THREE.ShaderMaterial;
-    (material as any).map = this.tileSet.data.texture;
+    // Pretend to be a normal MeshBasicMaterial/MeshPhongMaterial for a second in order to trick THREE.js to pass the correct defines to the ShaderMaterial
+    if (this.materialType !== "shader")
+      (material as any).map = this.tileSet.data.texture;
+    material.uniforms["map"].value = this.tileSet.data.texture;
     material.alphaTest = 0.1;
     material.side = THREE.DoubleSide;
 

@@ -1,7 +1,6 @@
 import ui from "./ui";
 import { data } from "./network";
 import { createShaderMaterial } from "../../components/Shader";
-import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
 
 const THREE = SupEngine.THREE;
 
@@ -10,12 +9,8 @@ const gameInstance = new SupEngine.GameInstance(canvasElt);
 
 const cameraActor = new SupEngine.Actor(gameInstance, "Camera");
 cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
-const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
-let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
-cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-controlUserSettings.emitter.on("controlSchemes", () => {
-  if (cameraControls) cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-});
+const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
+let cameraControls = SupEngine.createEditorComponent<Camera3DControls>("Camera3DControls", cameraActor, cameraComponent);
 
 const loader = new THREE.TextureLoader();
 const leonardTexture = loader.load("leonard.png", undefined);
@@ -37,8 +32,7 @@ function controlPreview(type: string) {
     cameraActor.setLocalOrientation(new THREE.Quaternion());
     cameraControls = null;
   } else if (type !== "Screen" && cameraControls === null) {
-    cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](cameraActor, cameraComponent);
-    cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
+    cameraControls = SupEngine.createEditorComponent<Camera3DControls>("Camera3DControls", cameraActor, cameraComponent);
     cameraComponent.setOrthographicMode(false);
   }
 }

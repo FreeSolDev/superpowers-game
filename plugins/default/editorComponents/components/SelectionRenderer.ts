@@ -1,15 +1,13 @@
-import * as THREE from "three";
-import ActorComponent from "../ActorComponent";
-import Actor from "../Actor";
+const THREE = SupEngine.THREE;
 
-export default class SelectionRenderer extends ActorComponent {
-  actor: Actor;
+export default class SelectionRenderer extends SupEngine.ActorComponent {
+  actor: SupEngine.Actor;
   width: number;
   height: number;
 
   mesh: THREE.Line;
 
-  constructor(actor: Actor) {
+  constructor(actor: SupEngine.Actor) {
     super(actor, "SelectionRenderer");
   }
 

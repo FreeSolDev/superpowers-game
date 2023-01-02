@@ -1,5 +1,4 @@
 import GameSettingsResource from "../data/GameSettingsResource";
-import * as controlUserSettings from "../data/ControlUserSettings";
 
 export default class GameSettingsEditor {
 
@@ -65,19 +64,6 @@ export default class GameSettingsEditor {
     this.fields["ratioDenominator"].addEventListener("change", (event: any) => {
       this.projectClient.editResource("gameSettings", "setProperty", "ratioDenominator", parseInt(event.target.value, 10));
     });
-
-    // A little ugly, need to be in a separate section
-    const themeRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Game.controlSchemes"));
-    const themeValues: { [value: string]: string } = { "superpowers": "Superpowers", "unity": "Unity" };
-    this.fields["controls"] = SupClient.table.appendSelectBox(themeRow.valueCell, themeValues, controlUserSettings.pub.controlSchemes);
-    this.fields["controls"].addEventListener("change", (event: any) => {
-      controlUserSettings.edit("controlSchemes", event.target.value);
-    });
-
-    controlUserSettings.emitter.addListener("controlSchemes", () => {
-      this.fields["controls"].value = controlUserSettings.pub.theme;
-    });
-
 
     this.projectClient.subResource("gameSettings", this);
   }

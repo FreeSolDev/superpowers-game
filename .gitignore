@@ -18,7 +18,6 @@ plugins/**/*.js
 
 !*Gulpfile.js
 !gulpfile.js
-!TransformControls.js
 !rng.js
 
 **/node_modules

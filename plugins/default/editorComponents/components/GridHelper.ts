@@ -8,12 +8,12 @@ export default class GridHelper extends SupEngine.ActorComponent {
   step: number;
   visible = true;
 
-  camera: THREE.Camera;
+  camera: SupEngine.Camera;
 
-  constructor(actor: SupEngine.Actor, threeCamera: THREE.Camera, step: number) {
+  constructor(actor: SupEngine.Actor, supCamera: SupEngine.Camera, step: number) {
     super(actor, "GridHelper");
 
-    this.camera = threeCamera;
+    this.camera = supCamera;
     this.step = step;
 
     this._createGrid();
@@ -23,14 +23,15 @@ export default class GridHelper extends SupEngine.ActorComponent {
   setIsLayerActive(active: boolean) { this.gridMajor.visible = this.gridMinor.visible = active && this.visible; }
 
   update() {
+    const p = this.camera.actor.getGlobalPosition(new THREE.Vector3());
     let cameraSize = 10;
-    if (this.camera.type === "OrthographicCamera")
-      cameraSize = (this.camera as any).top - (this.camera as any).bottom;
-    else if (this.camera.type === "PerspectiveCamera")
-      cameraSize = Math.abs(this.camera.matrixWorld.elements[13]); // height
+    if (this.camera.isOrthographic)
+      cameraSize = this.camera.orthographicScale;
+    else
+      cameraSize = Math.abs(p.y); // height
 
     let logCam = Math.log10(cameraSize);
-    if (this.camera.type === "PerspectiveCamera")
+    if (!this.camera.isOrthographic)
       logCam = Math.max(0.51, logCam);
     let nextTen = Math.pow(10, Math.round(logCam));
 
@@ -39,19 +40,21 @@ export default class GridHelper extends SupEngine.ActorComponent {
     this.xAxis.scale.setScalar(nextTen / 10 * this.step);
     this.yAxis.scale.setScalar(nextTen / 10 * this.step);
 
-    if (this.camera.type === "OrthographicCamera") {
-      this.gridMajor.position.x = (this.camera.matrixWorld.elements[12] - this.camera.matrixWorld.elements[12] % (nextTen / 10 * this.step));
-      this.gridMajor.position.z = -(this.camera.matrixWorld.elements[13] - this.camera.matrixWorld.elements[13] % (nextTen / 10 * this.step));
-      this.gridMajor.position.y = this.camera.matrixWorld.elements[14] - 1;
+    if (this.camera.isOrthographic) {
+      this.gridMajor.position.x = (p.x - p.x % (nextTen / 10 * this.step));
+      this.gridMajor.position.z = -(p.y - p.y % (nextTen / 10 * this.step));
 
-      this.gridMinor.position.x = (this.camera.matrixWorld.elements[12] - this.camera.matrixWorld.elements[12] % (nextTen / 100 * this.step));
-      this.gridMinor.position.z = -(this.camera.matrixWorld.elements[13] - this.camera.matrixWorld.elements[13] % (nextTen / 100 * this.step));
-      this.gridMinor.position.y = this.camera.matrixWorld.elements[14] - 1;
+      this.gridMinor.position.x = (p.x - p.x % (nextTen / 100 * this.step));
+      this.gridMinor.position.z = -(p.y - p.y % (nextTen / 100 * this.step));
 
-      this.xAxis.position.x = this.camera.matrixWorld.elements[12];
-      this.yAxis.position.z = -this.camera.matrixWorld.elements[13];
-      this.xAxis.position.y = this.camera.matrixWorld.elements[14] - 1;
-      this.yAxis.position.y = this.camera.matrixWorld.elements[14] - 1;
+      this.xAxis.position.x = p.x;
+      this.yAxis.position.z = -p.y;
+
+      let depth = Math.min(p.z - 1, 0);
+      this.gridMajor.position.y = depth;
+      this.gridMinor.position.y = depth;
+      this.xAxis.position.y = depth;
+      this.yAxis.position.y = depth;
     } else {
       this.gridMajor.position.x = 0;
       this.gridMajor.position.z = 0;
@@ -106,21 +109,28 @@ export default class GridHelper extends SupEngine.ActorComponent {
     this.gridMinor = new THREE.GridHelper(2000, 2000, 0x888888, 0x888888);
     (this.gridMinor.material as THREE.Material).transparent = true;
     (this.gridMinor.material as THREE.Material).opacity = 0.25;
-    this.actor.threeObject.add(this.gridMinor);
+    (this.gridMinor.material as THREE.Material).depthWrite = false;
 
     this.gridMajor = new THREE.GridHelper(200, 200, 0x888888, 0x888888);
     (this.gridMajor.material as THREE.Material).transparent = true;
     (this.gridMajor.material as THREE.Material).opacity = 0.5;
-    this.actor.threeObject.add(this.gridMajor);
+    (this.gridMajor.material as THREE.Material).depthWrite = false;
 
     const lineXGeometry = new THREE.BufferGeometry();
     lineXGeometry.setAttribute("position", new THREE.Float32BufferAttribute([-100, 0, 0, 100, 0, 0], 3));
-    this.xAxis = new THREE.Line(lineXGeometry, new THREE.LineBasicMaterial({ color: 0x888888, transparent: true, opacity: 0.75, depthTest: false, depthWrite: false }));
-    this.actor.threeObject.add(this.xAxis);
+    let lineMat = new THREE.LineBasicMaterial({ color: 0x888888 });
+    lineMat.transparent = true;
+    lineMat.opacity = 0.5;
+    lineMat.depthWrite = false;
+    this.xAxis = new THREE.LineSegments(lineXGeometry, lineMat);
 
     const lineYGeometry = new THREE.BufferGeometry();
     lineYGeometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, -100, 0, 0, 100], 3));
-    this.yAxis = new THREE.Line(lineYGeometry, new THREE.LineBasicMaterial({ color: 0x888888, transparent: true, opacity: 0.75, depthTest: false, depthWrite: false }));
+    this.yAxis = new THREE.LineSegments(lineYGeometry, lineMat);
+
+    this.actor.threeObject.add(this.gridMinor);
+    this.actor.threeObject.add(this.gridMajor);
+    this.actor.threeObject.add(this.xAxis);
     this.actor.threeObject.add(this.yAxis);
 
     this.setVisible(this.visible);

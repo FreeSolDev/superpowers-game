@@ -18,11 +18,11 @@ animationArea.gameInstance = new SupEngine.GameInstance(<HTMLCanvasElement>docum
 
 const cameraActor = new SupEngine.Actor(animationArea.gameInstance, "Camera");
 cameraActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 10));
-const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
+const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
 cameraComponent.setOrthographicMode(true);
 cameraComponent.setOrthographicScale(10);
 cameraComponent.setClearColor(0xbbbbbb);
-animationArea.cameraControls = new SupEngine.editorComponentClasses["Camera2DControls"](cameraActor, cameraComponent,
+animationArea.cameraControls = SupEngine.createEditorComponent("Camera2DControls", cameraActor, cameraComponent,
   { zoomSpeed: 1.5, zoomMin: 0.5, zoomMax: 100 });
 
 const originActor = new SupEngine.Actor(animationArea.gameInstance, "Origin");

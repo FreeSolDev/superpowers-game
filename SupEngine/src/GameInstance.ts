@@ -8,7 +8,7 @@ import Actor from "./Actor";
 import ActorComponent from "./ActorComponent";
 import Input from "./Input";
 import Audio from "./Audio";
-import Camera from "./components/Camera";
+import Camera from "./Camera";
 
 export default class GameInstance extends EventEmitter {
   framesPerSecond = 60;

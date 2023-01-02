@@ -9,10 +9,10 @@ export default class TransformHandle extends SupEngine.ActorComponent {
   space = "world";
   controlVisible = false;
 
-  constructor(actor: SupEngine.Actor, threeCamera: THREE.Camera) {
+  constructor(actor: SupEngine.Actor, supCamera: SupEngine.Camera) {
     super(actor, "TransformHandle");
 
-    this.control = new TransformControls(threeCamera, actor.gameInstance.threeRenderer);
+    this.control = new TransformControls(supCamera.unifiedThreeCamera, actor.gameInstance.threeRenderer);
     this.actor.gameInstance.threeScene.add(this.control);
   }
 

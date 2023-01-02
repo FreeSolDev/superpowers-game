@@ -17,17 +17,9 @@ export {
   Input, Audio, SoundPlayer
 };
 
-import Camera2DControls from "./components/Camera2DControls";
-import Camera3DControls from "./components/Camera3DControls";
-import FlatColorRenderer from "./components/FlatColorRenderer";
-import GridRenderer from "./components/GridRenderer";
-import SelectionRenderer from "./components/SelectionRenderer";
+import Camera from "./Camera";
 
-import Camera from "./components/Camera";
-
-export const editorComponentClasses: { [name: string]: new(...args: any[]) => ActorComponent } = {
-  Camera2DControls, Camera3DControls, FlatColorRenderer, GridRenderer, SelectionRenderer
-};
+export const editorComponentClasses: { [name: string]: new(...args: any[]) => ActorComponent } = {};
 
 export function registerEditorComponentClass(name: string, componentClass: new(...args: any[]) => ActorComponent) {
   if (editorComponentClasses[name] != null) {
@@ -36,6 +28,12 @@ export function registerEditorComponentClass(name: string, componentClass: new(.
   }
 
   editorComponentClasses[name] = componentClass;
+}
+
+export function createEditorComponent<T extends ActorComponent>(name: string, ...args: any[]): T {
+  const argsThis = [null].concat(args);
+  const ctorFunc = editorComponentClasses[name].bind.apply(editorComponentClasses[name], argsThis);
+  return new ctorFunc();
 }
 
 export const componentClasses: { [name: string]: new(...args: any[]) => ActorComponent } = {

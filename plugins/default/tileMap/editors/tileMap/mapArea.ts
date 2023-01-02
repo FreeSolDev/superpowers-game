@@ -14,10 +14,10 @@ const mapArea: {
   gameInstance?: SupEngine.GameInstance;
 
   cameraComponent?: any;
-  cameraControls?: any;
+  cameraControls?: Camera2DControls;
 
   gridActor?: SupEngine.Actor;
-  gridRenderer?: any;
+  gridRenderer?: GridRenderer;
 
   patternData?: ((number|boolean)[]|number)[]
   patternDataWidth?: number;
@@ -40,10 +40,10 @@ mapArea.gameInstance = new SupEngine.GameInstance(<HTMLCanvasElement>document.qu
 
 const cameraActor = new SupEngine.Actor(mapArea.gameInstance, "Camera");
 cameraActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 100));
-mapArea.cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
+mapArea.cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
 mapArea.cameraComponent.setOrthographicMode(true);
 mapArea.cameraComponent.setClearColor(0xbbbbbb);
-mapArea.cameraControls = new SupEngine.editorComponentClasses["Camera2DControls"](
+mapArea.cameraControls = SupEngine.createEditorComponent<Camera2DControls>("Camera2DControls",
   cameraActor, mapArea.cameraComponent,
   { zoomSpeed: 1.5, zoomMin: 0.5, zoomMax: 25 },
   () => { mapArea.gridRenderer.setOrthographicScale(mapArea.cameraComponent.orthographicScale); }
@@ -51,7 +51,7 @@ mapArea.cameraControls = new SupEngine.editorComponentClasses["Camera2DControls"
 
 mapArea.gridActor = new SupEngine.Actor(mapArea.gameInstance, "Grid");
 mapArea.gridActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 90));
-mapArea.gridRenderer = new SupEngine.editorComponentClasses["GridRenderer"](mapArea.gridActor, {
+mapArea.gridRenderer = SupEngine.createEditorComponent<GridRenderer>("GridRenderer", mapArea.gridActor, {
   width: 1, height: 1, ratio: { x: 1, y: 1 },
   orthographicScale: mapArea.cameraComponent.orthographicScale
 });
@@ -61,7 +61,7 @@ mapArea.patternDataWidth = 1;
 mapArea.patternActor = new SupEngine.Actor(mapArea.gameInstance, "Pattern");
 mapArea.patternRenderer = new TileMapRenderer(mapArea.patternActor);
 mapArea.patternBackgroundActor = new SupEngine.Actor(mapArea.gameInstance, "Pattern Background");
-mapArea.patternBackgroundRenderer = new SupEngine.editorComponentClasses["FlatColorRenderer"](mapArea.patternBackgroundActor);
+mapArea.patternBackgroundRenderer = SupEngine.createEditorComponent("FlatColorRenderer", mapArea.patternBackgroundActor);
 
 mapArea.duplicatingSelection = false;
 mapArea.cursorPoint = { x: -1, y: -1 };

@@ -1,28 +1,27 @@
-import * as THREE from "three";
-import ActorComponent from "../ActorComponent";
-import Actor from "../Actor";
-import Camera from "./Camera";
+import * as helpersUserSettings from "../data/HelpersUserSettings";
+const THREE = SupEngine.THREE;
 
 const tmpMovement = new THREE.Vector3();
 const tmpQuaternion = new THREE.Quaternion();
 const forwardVector = new THREE.Vector3(0, 1, 0);
 
-export default class Camera3DControls extends ActorComponent {
-  camera: Camera;
+export default class Camera3DControls extends SupEngine.ActorComponent {
+  camera: SupEngine.Camera;
   rotation: THREE.Euler;
   movementSpeed = 0.2;
   mode = "superpowers";
   direction: THREE.Vector3;
 
-  constructor(actor: Actor, camera: Camera) {
+  constructor(actor: SupEngine.Actor, camera: SupEngine.Camera) {
     super(actor, "Camera3DControls");
 
     this.camera = camera;
     this.rotation = actor.getLocalEulerAngles(new THREE.Euler());
-  }
 
-  changeMode(mode: string) {
-    this.mode = mode;
+    this.mode = helpersUserSettings.pub.controlSchemes3D;
+    helpersUserSettings.emitter.on("controlSchemes3D", () => {
+      this.mode = helpersUserSettings.pub.controlSchemes3D;
+    });
   }
 
   setIsLayerActive(active: boolean) { /* Nothing to render */ }

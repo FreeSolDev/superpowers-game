@@ -1,8 +1,6 @@
-import * as THREE from "three";
-import ActorComponent from "../ActorComponent";
-import Actor from "../Actor";
+const THREE = SupEngine.THREE;
 
-export default class FlatColorRenderer extends ActorComponent {
+export default class FlatColorRenderer extends SupEngine.ActorComponent {
   color: string;
   width: number;
   height: number;
@@ -10,8 +8,8 @@ export default class FlatColorRenderer extends ActorComponent {
   mesh: THREE.Mesh;
   texture: THREE.Texture;
 
-  constructor(actor: Actor, color: number, scaleRatio: number, width: number, height: number) {
-    super(actor, "GridRenderer");
+  constructor(actor: SupEngine.Actor, color: number, scaleRatio: number, width: number, height: number) {
+    super(actor, "FlatColorRenderer");
 
     this.setup(color, scaleRatio, width, height);
   }

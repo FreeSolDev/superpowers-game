@@ -3,8 +3,6 @@ import ui, { setupSelectedNode } from "./ui";
 import { renderOverlay, createAxes } from "./axesGizmo";
 import { SceneActorData } from "../../components/SceneUpdater";
 
-import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
-
 const THREE = SupEngine.THREE;
 
 const engine: {
@@ -12,8 +10,8 @@ const engine: {
 
   cameraRoot: SupEngine.Actor;
   cameraActor: SupEngine.Actor;
-  cameraComponent: any;
-  cameraControls: any;
+  cameraComponent: SupEngine.Camera;
+  cameraControls: Camera3DControls|Camera2DControls;
 
   selectedActorsData: SceneActorData[];
 
@@ -35,11 +33,6 @@ engine.cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
 engine.cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor);
 engine.cameraComponent.layers = [ 0, -1 ];
 engine.cameraComponent.setFarClippingPlane(510);
-engine.cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, engine.cameraComponent);
-engine.cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-controlUserSettings.emitter.on("controlSchemes", () => {
-  engine.cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-});
 
 engine.selectedActorsData = [];
 
@@ -47,7 +40,7 @@ engine.ambientLight = new THREE.AmbientLight(0xcfcfcf);
 
 createAxes();
 
-const gridActor = new SupEngine.Actor(engine.gameInstance, "Grid", null, { layer: 0 });
+const gridActor = new SupEngine.Actor(engine.gameInstance, "Grid", null);
 const selectionActor = new SupEngine.Actor(engine.gameInstance, "Selection Box", null, { layer: -1 });
 const transformHandlesActor = new SupEngine.Actor(engine.gameInstance, "Transform Handles", null, { layer: -1 });
 
@@ -79,14 +72,18 @@ function onChangeActive() {
 
 export function start() {
   // Those classes are loaded asynchronously
-  engine.selectionBoxComponent = new SupEngine.editorComponentClasses["SelectionBox"](selectionActor);
-  engine.transformHandleComponent = new SupEngine.editorComponentClasses["TransformHandle"](transformHandlesActor, engine.cameraComponent.unifiedThreeCamera);
+  engine.cameraControls = SupEngine.createEditorComponent<Camera3DControls>("Camera3DControls", engine.cameraActor, engine.cameraComponent);
+
+  engine.selectionBoxComponent = SupEngine.createEditorComponent("SelectionBox", selectionActor);
+  engine.transformHandleComponent = SupEngine.createEditorComponent("TransformHandle", transformHandlesActor, engine.cameraComponent);
 
   engine.transformHandleComponent.control.addEventListener("mouseDown", () => { draggingControls = true; });
   engine.transformHandleComponent.control.addEventListener("objectChange", onTransformChange);
 
-  engine.gridHelperComponent = new SupEngine.editorComponentClasses["GridHelper"](gridActor, engine.cameraComponent.unifiedThreeCamera, ui.gridStep);
+  engine.gridHelperComponent = SupEngine.createEditorComponent("GridHelper", gridActor, engine.cameraComponent, ui.gridStep);
   engine.gridHelperComponent.setVisible(false);
+
+  // SupEngine.createEditorComponent<SkyHelper>("SkyHelper", engine.cameraActor);
 
   hasStarted = true;
   onChangeActive();
@@ -95,18 +92,17 @@ export function start() {
 export function updateCameraMode() {
   if (ui.cameraMode === "3D") {
     engine.cameraComponent.setOrthographicMode(false);
-    engine.cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, engine.cameraComponent);
-    engine.cameraControls.movementSpeed = ui.cameraSpeedSlider.value;
+    engine.cameraControls = SupEngine.createEditorComponent<Camera3DControls>("Camera3DControls", engine.cameraActor, engine.cameraComponent);
+    (engine.cameraControls as Camera3DControls).movementSpeed = ui.cameraSpeedSlider.valueAsNumber;
   } else {
     engine.cameraActor.setLocalOrientation(new SupEngine.THREE.Quaternion().setFromAxisAngle(new SupEngine.THREE.Vector3(0, 1, 0), 0));
     engine.cameraComponent.setOrthographicMode(true);
-    engine.cameraControls = new SupEngine.editorComponentClasses["Camera2DControls"](engine.cameraActor, engine.cameraComponent, {
+    engine.cameraControls = SupEngine.createEditorComponent<Camera2DControls>("Camera2DControls", engine.cameraActor, engine.cameraComponent, {
       zoomSpeed: 1.5,
       zoomMin: 0.1,
       zoomMax: 1000,
     });
   }
-  engine.cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
 
   engine.transformHandleComponent.control.camera = engine.cameraComponent.threeCamera;
 
@@ -116,11 +112,9 @@ export function updateCameraMode() {
       gridActor.setLocalEulerAngles(new THREE.Euler(Math.PI / 2, 0, 0));
     else
       gridActor.setLocalEulerAngles(new THREE.Euler(0, 0, 0));
-    gridActor.layer = 0;
   } else {
     gridActor.setLocalPosition(new THREE.Vector3(0, 0, 0));
     gridActor.setLocalEulerAngles(new THREE.Euler(Math.PI / 2, 0, 0));
-    gridActor.layer = -1;
   }
 }
 
@@ -144,10 +138,10 @@ function update() {
   if (ui.cameraMode === "3D" && engine.gameInstance.input.keyboardButtons[(<any>window).KeyEvent.DOM_VK_CONTROL].isDown) {
     if (engine.gameInstance.input.mouseButtons[5].isDown) {
       ui.cameraSpeedSlider.value = (parseFloat(ui.cameraSpeedSlider.value) + 2 * parseFloat(ui.cameraSpeedSlider.step)).toString();
-      engine.cameraControls.movementSpeed = ui.cameraSpeedSlider.value;
+      (engine.cameraControls as Camera3DControls).movementSpeed = ui.cameraSpeedSlider.valueAsNumber;
     } else if (engine.gameInstance.input.mouseButtons[6].isDown) {
       ui.cameraSpeedSlider.value = (parseFloat(ui.cameraSpeedSlider.value) - 2 * parseFloat(ui.cameraSpeedSlider.step)).toString();
-      engine.cameraControls.movementSpeed = ui.cameraSpeedSlider.value;
+      (engine.cameraControls as Camera3DControls).movementSpeed = ui.cameraSpeedSlider.valueAsNumber;
     }
   }
 

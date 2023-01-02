@@ -2,8 +2,6 @@ import { data } from "./network";
 import ui, { setupSelectedNode } from "./ui";
 import textureArea, { handleTextureArea } from "./textureArea";
 
-import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
-
 const THREE = SupEngine.THREE;
 
 const engine: {
@@ -24,23 +22,19 @@ engine.gameInstance = new SupEngine.GameInstance(canvasElt);
 engine.cameraActor = new SupEngine.Actor(engine.gameInstance, "Camera");
 engine.cameraActor.setLocalPosition(new THREE.Vector3(0, 0, 10));
 
-const cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor);
+const cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor) as SupEngine.Camera;
 cameraComponent.layers = [ 0, -1 ];
-let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, cameraComponent);
-cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-controlUserSettings.emitter.on("controlSchemes", () => {
-  cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-});
+SupEngine.createEditorComponent<Camera3DControls>("Camera3DControls", engine.cameraActor, cameraComponent);
 
 const markerActor = new SupEngine.Actor(engine.gameInstance, "Marker", null, { layer: -1 });
-engine.transformMarkerComponent = new SupEngine.editorComponentClasses["TransformMarker"](markerActor);
+engine.transformMarkerComponent = SupEngine.createEditorComponent("TransformMarker", markerActor);
 engine.transformMarkerComponent.hide();
 
 const selectionActor = new SupEngine.Actor(engine.gameInstance, "Selection Box", null, { layer: -1 });
-engine.selectionBoxComponent = new SupEngine.editorComponentClasses["SelectionBox"](selectionActor);
+engine.selectionBoxComponent = SupEngine.createEditorComponent("SelectionBox", selectionActor);
 
 const transformHandlesActor = new SupEngine.Actor(engine.gameInstance, "Transform Handles", null, { layer: -1 });
-engine.transformHandleComponent = new SupEngine.editorComponentClasses["TransformHandle"](transformHandlesActor, cameraComponent.unifiedThreeCamera);
+engine.transformHandleComponent = SupEngine.createEditorComponent("TransformHandle", transformHandlesActor, cameraComponent);
 
 const gridActor = new SupEngine.Actor(engine.gameInstance, "Grid", null, { layer: 0 });
 
@@ -49,7 +43,7 @@ engine.gameInstance.threeScene.add(light);*/
 
 export function start() {
   // We need to delay this because it relies on ui.grid* being setup
-  engine.gridHelperComponent = new SupEngine.editorComponentClasses["GridHelper"](gridActor, cameraComponent.unifiedThreeCamera, ui.gridStep);
+  engine.gridHelperComponent = SupEngine.createEditorComponent("GridHelper", gridActor, cameraComponent, ui.gridStep);
   engine.gridHelperComponent.setVisible(false);
 }
 

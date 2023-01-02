@@ -5,6 +5,7 @@ declare namespace SupEngine {
 
   export const editorComponentClasses: { [name: string]: any };
   export function registerEditorComponentClass(name: string, component: any): void;
+  export function createEditorComponent<T>(name: string, ...args: any[]): T;
 
   export const componentClasses: { [name: string]: any };
   export function registerComponentClass(name: string, plugin: any): void;
@@ -238,6 +239,32 @@ declare namespace SupEngine {
 
   namespace SoundPlayer {
     export enum State { Playing, Paused, Stopped }
+  }
+
+  class Camera extends ActorComponent {
+    readonly fov: number;
+    readonly orthographicScale: number;
+
+    readonly threeCamera: THREE.OrthographicCamera|THREE.PerspectiveCamera;
+    readonly unifiedThreeCamera: THREE.Camera;
+
+    readonly cachedRatio: number;
+    readonly isOrthographic: boolean;
+
+    layers: number[];
+
+    constructor(actor: Actor);
+    setIsLayerActive(active: boolean): void;
+
+    setOrthographicMode(isOrthographic: boolean): void;
+    setFOV(fov: number): void;
+    setOrthographicScale(orthographicScale: number): void;
+    setViewport(x: number, y: number, width: number, height: number): void;
+    setDepth(depth: number): void;
+    setNearClippingPlane(nearClippingPlane: number): void;
+    setFarClippingPlane(farClippingPlane: number): void;
+    setClearColor(clearColor: number): void;
+    setPostProcessing(use: boolean, assets: Array<any>): void;
   }
 
   class EventEmitter implements NodeJS.EventEmitter {

@@ -18,11 +18,11 @@ const tileSetArea: {
 tileSetArea.gameInstance = new SupEngine.GameInstance(<HTMLCanvasElement>document.querySelector("canvas.tileSet"));
 
 const cameraActor = new SupEngine.Actor(tileSetArea.gameInstance, "Camera");
-tileSetArea.cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
+tileSetArea.cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
 tileSetArea.cameraComponent.setOrthographicMode(true);
 tileSetArea.cameraComponent.setClearColor(0xbbbbbb);
 cameraActor.setLocalPosition(new SupEngine.THREE.Vector3(tileSetArea.cameraComponent.cachedRatio * 5 - 0.2, -5 + 0.2, 10));
-new SupEngine.editorComponentClasses["Camera2DControls"](
+SupEngine.createEditorComponent<Camera2DControls>("Camera2DControls",
   cameraActor, tileSetArea.cameraComponent,
   { zoomSpeed: 1.5, zoomMin: 0.1, zoomMax: 10000 },
   () => { data.tileSetUpdater.tileSetRenderer.gridRenderer.setOrthographicScale(tileSetArea.cameraComponent.orthographicScale); }

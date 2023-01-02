@@ -18,12 +18,12 @@ spritesheetArea.gameInstance = new SupEngine.GameInstance(<HTMLCanvasElement>doc
 
 const cameraActor = new SupEngine.Actor(spritesheetArea.gameInstance, "Camera");
 cameraActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 10));
-const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor);
+const cameraComponent = new SupEngine.componentClasses["Camera"](cameraActor) as SupEngine.Camera;
 cameraComponent.setOrthographicMode(true);
 cameraComponent.setOrthographicScale(10);
 cameraComponent.setClearColor(0xbbbbbb);
 
-spritesheetArea.cameraControls = new SupEngine.editorComponentClasses["Camera2DControls"](cameraActor, cameraComponent,
+spritesheetArea.cameraControls = SupEngine.createEditorComponent("Camera2DControls", cameraActor, cameraComponent,
   { zoomSpeed: 1.5, zoomMin: 0.5, zoomMax: 100 },
   () => { spritesheetArea.gridRenderer.setOrthographicScale(cameraComponent.orthographicScale); }
 );
@@ -33,7 +33,7 @@ spritesheetArea.spriteRenderer = new SpriteRenderer(spriteActor);
 
 const gridActor = new SupEngine.Actor(spritesheetArea.gameInstance, "Grid");
 gridActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 1));
-spritesheetArea.gridRenderer = new SupEngine.editorComponentClasses["GridRenderer"](gridActor);
+spritesheetArea.gridRenderer = SupEngine.createEditorComponent("GridRenderer", gridActor);
 
 const selectionActor = new SupEngine.Actor(spritesheetArea.gameInstance, "Selection");
 selectionActor.setLocalPosition(new SupEngine.THREE.Vector3(0, 0, 2));

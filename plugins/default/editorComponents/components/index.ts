@@ -1,0 +1,21 @@
+import Camera2DControls from "./Camera2DControls";
+import Camera3DControls from "./Camera3DControls";
+import FlatColorRenderer from "./FlatColorRenderer";
+import GridHelper from "./GridHelper";
+import GridRenderer from "./GridRenderer";
+import SelectionBox from "./SelectionBox";
+import SelectionRenderer from "./SelectionRenderer";
+import SkyHelper from "./SkyHelper";
+import TransformHandle from "./TransformHandle";
+import TransformMarker from "./TransformMarker";
+
+SupEngine.registerEditorComponentClass("Camera2DControls", Camera2DControls);
+SupEngine.registerEditorComponentClass("Camera3DControls", Camera3DControls);
+SupEngine.registerEditorComponentClass("FlatColorRenderer", FlatColorRenderer);
+SupEngine.registerEditorComponentClass("GridHelper", GridHelper);
+SupEngine.registerEditorComponentClass("GridRenderer", GridRenderer);
+SupEngine.registerEditorComponentClass("SelectionBox", SelectionBox);
+SupEngine.registerEditorComponentClass("SelectionRenderer", SelectionRenderer);
+SupEngine.registerEditorComponentClass("SkyHelper", SkyHelper);
+SupEngine.registerEditorComponentClass("TransformHandle", TransformHandle);
+SupEngine.registerEditorComponentClass("TransformMarker", TransformMarker);

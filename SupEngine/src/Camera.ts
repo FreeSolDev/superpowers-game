@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import Actor from "../Actor";
-import ActorComponent from "../ActorComponent";
+import Actor from "./Actor";
+import ActorComponent from "./ActorComponent";
 
 export default class Camera extends ActorComponent {
   fov = 45;

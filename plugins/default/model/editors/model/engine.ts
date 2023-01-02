@@ -1,7 +1,5 @@
 const THREE = SupEngine.THREE;
 
-import * as controlUserSettings from "../../../gameSettings/data/ControlUserSettings";
-
 const engine: {
   gameInstance?: SupEngine.GameInstance;
   cameraActor?: SupEngine.Actor;
@@ -14,15 +12,11 @@ engine.gameInstance = new SupEngine.GameInstance(canvasElt);
 engine.cameraActor = new SupEngine.Actor(engine.gameInstance, "Camera");
 engine.cameraActor.setLocalPosition(new THREE.Vector3(3, 2, 3));
 engine.cameraActor.lookAt(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 1, 0));
-const cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor);
-let cameraControls = new SupEngine.editorComponentClasses["Camera3DControls"](engine.cameraActor, cameraComponent);
-cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-controlUserSettings.emitter.on("controlSchemes", () => {
-  cameraControls.changeMode(controlUserSettings.pub.controlSchemes);
-});
+const cameraComponent = new SupEngine.componentClasses["Camera"](engine.cameraActor) as SupEngine.Camera;
+SupEngine.createEditorComponent<Camera3DControls>("Camera3DControls", engine.cameraActor, cameraComponent);
 
 const gridActor = new SupEngine.Actor(engine.gameInstance, "Grid", null, { layer: 0 });
-new SupEngine.editorComponentClasses["GridHelper"](gridActor, cameraComponent.unifiedThreeCamera, 1.0);
+SupEngine.createEditorComponent<GridHelper>("GridHelper", gridActor, cameraComponent, 1.0);
 
 const light = new THREE.AmbientLight(0xcfcfcf);
 engine.gameInstance.threeScene.add(light);

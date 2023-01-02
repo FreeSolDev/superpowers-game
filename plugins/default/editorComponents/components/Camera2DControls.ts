@@ -1,7 +1,5 @@
-import * as THREE from "three";
-import ActorComponent from "../ActorComponent";
-import Actor from "../Actor";
-import Camera from "./Camera";
+import * as helpersUserSettings from "../data/HelpersUserSettings";
+const THREE = SupEngine.THREE;
 
 const tmpVector3 = new THREE.Vector3();
 
@@ -11,14 +9,14 @@ interface Options {
   zoomSpeed: number;
 }
 
-export default class Camera2DControls extends ActorComponent {
-  actor: Actor;
-  camera: Camera;
+export default class Camera2DControls extends SupEngine.ActorComponent {
+  actor: SupEngine.Actor;
+  camera: SupEngine.Camera;
   options: Options;
   zoomCallback: Function;
   multiplier = 1;
 
-  constructor(actor: Actor, camera: Camera, options: Options, zoomCallback?: Function) {
+  constructor(actor: SupEngine.Actor, camera: SupEngine.Camera, options: Options, zoomCallback?: Function) {
     super(actor, "Camera2DControls");
 
     this.actor = actor;
@@ -28,10 +26,6 @@ export default class Camera2DControls extends ActorComponent {
   }
 
   setIsLayerActive(active: boolean) { /* Nothing to render */ }
-
-  changeMode(mode: string) {
-    // useless for now
-  }
 
   setMultiplier(newMultiplier: number) {
     const newOrthographicScale = this.camera.orthographicScale * this.multiplier;

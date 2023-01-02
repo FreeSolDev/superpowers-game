@@ -248,8 +248,8 @@ ui.cameraVerticalAxisButton.addEventListener("click", onChangeCameraVerticalAxis
 
 
 ui.cameraSpeedSlider = document.getElementById("camera-speed-slider") as HTMLInputElement;
+ui.cameraSpeedSlider.valueAsNumber = 0.2;
 ui.cameraSpeedSlider.addEventListener("input", onChangeCameraSpeed);
-ui.cameraSpeedSlider.value = engine.cameraControls.movementSpeed;
 
 ui.camera2DZ = document.getElementById("camera-2d-z") as HTMLInputElement;
 ui.camera2DZ.addEventListener("input", onChangeCamera2DZ);
@@ -802,7 +802,7 @@ function onChangeCameraVerticalAxis(event: any) {
 }
 
 function onChangeCameraSpeed() {
-  engine.cameraControls.movementSpeed = ui.cameraSpeedSlider.value;
+  (engine.cameraControls as Camera3DControls).movementSpeed = ui.cameraSpeedSlider.valueAsNumber;
 }
 
 function onChangeCamera2DZ() {

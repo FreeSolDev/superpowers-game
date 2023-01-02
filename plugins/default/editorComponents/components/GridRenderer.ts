@@ -1,6 +1,4 @@
-import * as THREE from "three";
-import ActorComponent from "../ActorComponent";
-import Actor from "../Actor";
+const THREE = SupEngine.THREE;
 
 interface Data {
   width: number;
@@ -10,7 +8,7 @@ interface Data {
   ratio: { x: number; y: number; };
 }
 
-export default class GridRenderer extends ActorComponent {
+export default class GridRenderer extends SupEngine.ActorComponent {
   width: number;
   height: number;
   direction: number;
@@ -19,7 +17,7 @@ export default class GridRenderer extends ActorComponent {
 
   mesh: THREE.LineSegments;
 
-  constructor(actor: Actor, data?: Data) {
+  constructor(actor: SupEngine.Actor, data?: Data) {
     super(actor, "GridRenderer");
 
     if (data != null) this.setGrid(data);
