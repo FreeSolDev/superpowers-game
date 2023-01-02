@@ -1,0 +1,6 @@
+{
+  "Light": {
+    "label": "Lumière",
+    "shadowMapType": "Type de texture d'ombre"
+  }
+}

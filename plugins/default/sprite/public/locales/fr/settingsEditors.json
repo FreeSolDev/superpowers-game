@@ -1,0 +1,11 @@
+{
+  "Sprite": {
+    "label": "Sprite",
+    "filtering": "Filtrage par défaut",
+    "nearest": "Au plus proche",
+    "linear": "Linéaire",
+    "framesPerSecond": "Images / seconde par défaut",
+    "pixelsPerUnit": "Pixels / unité par défaut",
+    "alphaTesting": "Seuil alpha par défaut"
+  }
+}

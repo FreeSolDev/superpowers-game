@@ -1,0 +1,26 @@
+{
+  "Light": {
+    "label": "Lumière",
+    "type": "Type",
+    "typeOptions": {
+      "ambient": "Ambiente",
+      "point": "Point",
+      "spot": "Spot",
+      "directional": "Directionnel"
+    },
+
+    "color": "Couleur",
+    "intensity": "Intensité",
+    "distance": "Distance",
+    "angle": "Angle",
+    "penumbra": "Penombre",
+    "decay": "Affaiblissement",
+    "target": "Cible",
+    "castShadow": "Projeter des ombres",
+    
+    "shadowSettings": {
+      "title": "Paramètre des ombres",
+      "mapSize": "Résolution"
+    }
+  }
+}

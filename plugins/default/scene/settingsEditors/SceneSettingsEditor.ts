@@ -32,7 +32,7 @@ export default class SceneSettingsEditor {
     });
 
     // User settings
-    const showGridRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Scene.showGridByDefault"));
+    const showGridRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Scene.showGridByDefault"), { class: "local" });
     this.showGridByDefaultField = SupClient.table.appendBooleanField(showGridRow.valueCell, sceneUserSettings.pub.showGridByDefault);
     this.showGridByDefaultField.addEventListener("change", (event: any) => {
       sceneUserSettings.edit("showGridByDefault", event.target.checked);
@@ -41,7 +41,7 @@ export default class SceneSettingsEditor {
       this.showGridByDefaultField.checked = sceneUserSettings.pub.showGridByDefault;
     });
 
-    const defaultGridSizeRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Scene.defaultGridSize"));
+    const defaultGridSizeRow = SupClient.table.appendRow(tbody, SupClient.i18n.t("settingsEditors:Scene.defaultGridSize"), { class: "local" });
     this.defaultGridSizeField = SupClient.table.appendNumberField(defaultGridSizeRow.valueCell, sceneUserSettings.pub.defaultGridSize, { step: "any" });
     this.defaultGridSizeField.addEventListener("change", (event: any) => {
       sceneUserSettings.edit("defaultGridSize", event.target.value);
